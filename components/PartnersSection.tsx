@@ -33,12 +33,15 @@ const PartnersSection = ({
 
   const classes = cn(
     isSearchFocused ? "w-[30vw]" : "w-[250px]",
-    "p-3 transition-all ease-in-out duration-300 max-w-[30vw] min-w-[250px] border border-slate-300 rounded-md shadow-lg overflow-scroll"
+    "p-3 transition-all ease-in-out duration-300 max-w-[30vw] min-w-[250px] border border-slate-300 rounded-md shadow-lg"
   );
 
   return (
     <div className={classes}>
-      <SectionHeader title="Partners" />
+      <SectionHeader
+        title={selectedPartner ? selectedPartner.name : "Partners"}
+        isLoading={isLoading}
+      />
       <SearchInput
         placeholder="Search..."
         value={searchValue}
@@ -48,9 +51,6 @@ const PartnersSection = ({
           setIsSearchFocused(true);
         }}
         onBlur={() => {
-          if (selectedPartner) {
-            setHideTable(true);
-          }
           setIsSearchFocused(false);
         }}
       />

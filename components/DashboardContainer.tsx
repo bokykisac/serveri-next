@@ -12,7 +12,7 @@ type PartnerDetailsResponse = {
   servers: Server[];
 };
 
-async function fetchPartnerDetails(partnerId: number) {
+async function fetchPartnerDetails(partnerId: string) {
   const { data } = await axios.get<PartnerDetailsResponse>(
     `/poslovni-partner/getWithData/${partnerId}`
   );
@@ -26,15 +26,11 @@ interface DashboardContainerProps {
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
-  console.log(selectedPartner);
-
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["partnerClickQuery", selectedPartner?.id],
     queryFn: () => fetchPartnerDetails(selectedPartner?.id!),
     enabled: !!selectedPartner,
   });
-
-  console.log(data);
 
   return (
     <div className="h-screen-nav grid grid-rows-3 gap-1 p-1">

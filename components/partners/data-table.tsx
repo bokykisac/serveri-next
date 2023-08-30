@@ -42,7 +42,6 @@ export function DataTable<TData, TValue>({
   });
 
   const classes = cn(
-    hide && "h-0",
     "rounded-md border w-full max-h-[120px] overflow-y-scroll overflow-x-hidden"
   );
 

@@ -1,5 +1,5 @@
 export type Partner = {
-  id: number;
+  id: string;
   name: string;
 };
 
