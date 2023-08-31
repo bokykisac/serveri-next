@@ -21,22 +21,22 @@ const PartnerDetails = ({ isLoading, partnerDetails }: PartnerDetailsProps) => {
   if (!partnerDetails) return null;
 
   return (
-    <div className="flex flex-col text-xs gap-1 mt-1">
+    <div className="flex flex-col text-xs gap-1 mt-1 text-slate-600">
       <div className="flex items-center gap-2">
         <div>
-          <UserSquare2 className="text-slate-500" size={18} />
+          <UserSquare2 className="text-red-900" size={18} />
         </div>
         <span>{partnerDetails?.contact || "-"}</span>
       </div>
       <div className="flex items-center gap-2">
         <div>
-          <Mail className="text-slate-500" size={18} />
+          <Mail className="text-red-900" size={18} />
         </div>
         <span className="truncate">{partnerDetails?.email || "-"}</span>
       </div>
       <div className="flex items-center gap-2">
         <div>
-          <Phone className="text-slate-500" size={18} />
+          <Phone className="text-red-900" size={18} />
         </div>
         <span className="truncate">{partnerDetails?.phone || "-"}</span>
       </div>

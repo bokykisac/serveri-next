@@ -15,34 +15,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/Table";
-import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  setSelectedPartner: Dispatch<SetStateAction<TData | null>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  setSelectedPartner,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    enableRowSelection: true,
-    enableMultiRowSelection: false,
   });
 
-  const classes = cn(
-    "rounded-md border w-full max-h-[120px] overflow-y-scroll overflow-x-hidden"
-  );
-
   return (
-    <div className={classes}>
+    <div className="rounded-md border w-full h-full mt-1">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -68,13 +58,10 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() => {
-                  row.toggleSelected();
-                  setSelectedPartner(row.original);
-                }}
+                className="hover:cursor-default hover:bg-inherit"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="whitespace-nowrap">
+                  <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -82,7 +69,10 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center hover:cursor-default hover:bg-inherit"
+              >
                 No results.
               </TableCell>
             </TableRow>

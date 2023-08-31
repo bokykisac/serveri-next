@@ -58,8 +58,6 @@ const PartnersSection = ({
         columns={columns}
         data={filteredPartners}
         setSelectedPartner={setSelectedPartner}
-        setHideTable={setHideTable}
-        hide={hideTable}
       />
       <PartnerDetails isLoading={isLoading} partnerDetails={selectedPartner} />
     </div>
