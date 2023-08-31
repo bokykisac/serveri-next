@@ -5,18 +5,13 @@ import { VPNConnection } from "@/types/api";
 
 interface VpnSectionProps {
   vpnConnections?: VPNConnection[];
-  isLoading: boolean;
 }
 
-const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
+const VpnSection = ({ vpnConnections }: VpnSectionProps) => {
   return (
-    <div className="flex flex-grow flex-col p-3 border h-full border-slate-300 rounded-md shadow-lg">
+    <div className="flex flex-grow flex-col py-1 px-2 border h-full border-slate-300 rounded-md shadow-lg">
       <SectionHeader title="VPN connections" />
-      <DataTable
-        columns={columns}
-        data={vpnConnections || []}
-        isLoading={isLoading}
-      />
+      <DataTable columns={columns} data={vpnConnections || []} />
     </div>
   );
 };
