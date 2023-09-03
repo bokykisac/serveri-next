@@ -63,8 +63,6 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     enabled: !!selectedServer,
   });
 
-  console.log(serverFunctionsData);
-
   const partnerDetailsQueryLoading =
     partnerDetailsFetching && partnerDetailsLoading;
   const serverFunctionsQueryLoading =

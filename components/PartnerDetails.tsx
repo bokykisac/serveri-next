@@ -9,13 +9,14 @@ interface PartnerDetailsProps {
 
 const PartnerDetails = ({ isLoading, partnerDetails }: PartnerDetailsProps) => {
   if (isLoading) {
-    return (
-      <div>
-        <Skeleton className="w-2/3 h-2 my-3 bg-slate-200" />
-        <Skeleton className="w-2/3 h-2 my-3 bg-slate-200" />
-        <Skeleton className="w-2/3 h-2 my-3 bg-slate-200" />
+    const skeletonRows = [...Array(3)].map((_, index) => (
+      <div key={index} className="flex flex-row gap-1 my-3 items-center">
+        <Skeleton className="w-5 h-3 bg-slate-200" />
+        <Skeleton className="w-2/3 h-2 bg-slate-200" />
       </div>
-    );
+    ));
+
+    return <>{skeletonRows}</>;
   }
 
   if (!partnerDetails) return null;
