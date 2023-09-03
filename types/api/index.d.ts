@@ -45,11 +45,32 @@ export type Server = {
   hddDescription: string;
   hostname: string;
   id: number;
-  installationDate: Date;
+  installationDate: string;
   ipAddress: string;
   ipAddress2: string;
   model: string;
   ram: string;
   role: string;
-  serverOs: OS;
+  serverOS: OS;
+};
+
+export type ServerFunctionType = {
+  id: string;
+  name: string;
+};
+
+export type ServerFunction = {
+  adminAccount: boolean;
+  custom1: string;
+  custom2: string;
+  custom3: string;
+  description: string;
+  id: number;
+  location: string;
+  password: string;
+  port: string;
+  proccessInstanceUrl: string;
+  serverFunctionType: ServerFunctionType;
+  username: string;
+  version: string;
 };

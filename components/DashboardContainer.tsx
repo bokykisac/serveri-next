@@ -2,11 +2,18 @@
 
 import PartnersSection from "@/components/PartnersSection";
 import axios from "@/lib/axios";
-import { Partner, PartnerDetail, Server, VPNConnection } from "@/types/api";
+import {
+  Partner,
+  PartnerDetail,
+  Server,
+  ServerFunction,
+  VPNConnection,
+} from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import VpnSection from "./VpnSection";
 import ServersSection from "./ServersSection";
+import ServerFunctionsSection from "./ServerFunctionsSection";
 
 type PartnerDetailsResponse = {
   partner: PartnerDetail;
@@ -21,20 +28,47 @@ async function fetchPartnerDetails(partnerId: string) {
   return data;
 }
 
+async function fetchServerFunctions(serverId: number) {
+  const { data } = await axios.get<ServerFunction[]>(
+    `/server-funkcije/getAllFromServer/${serverId}`
+  );
+  return data;
+}
+
 interface DashboardContainerProps {
   partners: Partner[];
 }
 
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+  const [selectedServer, setSelectedServer] = useState<Server | null>(null);
 
-  const { data, isLoading, isFetching } = useQuery({
+  const {
+    data: partnerDetailsData,
+    isLoading: partnerDetailsLoading,
+    isFetching: partnerDetailsFetching,
+  } = useQuery({
     queryKey: ["partnerClickQuery", selectedPartner?.id],
     queryFn: () => fetchPartnerDetails(selectedPartner?.id!),
     enabled: !!selectedPartner,
   });
 
-  const queryLoading = isFetching && isLoading;
+  const {
+    data: serverFunctionsData,
+    isLoading: serverFunctionsLoading,
+    isFetching: serverFunctionsFetching,
+  } = useQuery({
+    queryKey: ["serverClickQuery", selectedServer?.id],
+    queryFn: () => fetchServerFunctions(selectedServer?.id!),
+    enabled: !!selectedServer,
+  });
+
+  console.log(serverFunctionsData);
+
+  const partnerDetailsQueryLoading =
+    partnerDetailsFetching && partnerDetailsLoading;
+  const serverFunctionsQueryLoading =
+    serverFunctionsLoading && serverFunctionsFetching;
 
   return (
     <div className="h-screen-nav grid grid-rows-3 gap-1">
@@ -43,13 +77,20 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
           <PartnersSection
             partners={partners}
             setSelectedPartner={setSelectedPartner}
-            isLoading={queryLoading}
-            selectedPartner={data?.partner}
+            isLoading={partnerDetailsQueryLoading}
+            selectedPartner={partnerDetailsData?.partner}
           />
-          <VpnSection vpnConnections={data?.serverVpns} />
+          <VpnSection vpnConnections={partnerDetailsData?.serverVpns || []} />
         </div>
-        <ServersSection servers={data?.servers} />
-        <div className="border border-red-500">Functions</div>
+        <ServersSection
+          servers={partnerDetailsData?.servers || []}
+          setSelectedServer={setSelectedServer}
+          isLoading={partnerDetailsQueryLoading}
+        />
+        <ServerFunctionsSection
+          serverFunctions={serverFunctionsData || []}
+          isLoading={serverFunctionsQueryLoading}
+        />
       </div>
     </div>
   );

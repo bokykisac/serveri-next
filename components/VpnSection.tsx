@@ -4,7 +4,7 @@ import { columns } from "@/components/vpns/columns";
 import { VPNConnection } from "@/types/api";
 
 interface VpnSectionProps {
-  vpnConnections?: VPNConnection[];
+  vpnConnections: VPNConnection[];
 }
 
 const VpnSection = ({ vpnConnections }: VpnSectionProps) => {
