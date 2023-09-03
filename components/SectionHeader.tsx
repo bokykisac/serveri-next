@@ -1,4 +1,5 @@
-import Button from "@/ui/Button";
+"use client";
+
 import Skeleton from "@/ui/Skeleton";
 import { PlusSquare } from "lucide-react";
 

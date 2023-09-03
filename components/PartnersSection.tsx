@@ -25,8 +25,6 @@ const PartnersSection = ({
   const [searchValue, setSearchValue] = useState<string>("");
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
 
-  const [hideTable, setHideTable] = useState<boolean>(false);
-
   const filteredPartners = partners.filter((partner) =>
     partner.name.toLowerCase().includes(searchValue.toLocaleLowerCase())
   );
@@ -46,13 +44,8 @@ const PartnersSection = ({
         placeholder="Search..."
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        onFocus={() => {
-          setHideTable(false);
-          setIsSearchFocused(true);
-        }}
-        onBlur={() => {
-          setIsSearchFocused(false);
-        }}
+        onFocus={() => setIsSearchFocused(true)}
+        onBlur={() => setIsSearchFocused(false)}
       />
       <DataTable
         columns={columns}
