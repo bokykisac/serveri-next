@@ -4,10 +4,10 @@ import SearchInput from "@/components/SearchInput";
 import SectionHeader from "@/components/SectionHeader";
 import { Partner, PartnerDetail } from "@/types/api";
 import { type Dispatch, type SetStateAction, useState } from "react";
-import { DataTable } from "./partners/data-table";
+import { DataTable } from "@/ui/DataTable";
 import { columns } from "@/components/partners/columns";
 import { cn } from "@/lib/utils";
-import PartnerDetails from "./PartnerDetails";
+import PartnerDetails from "@/components/PartnerDetails";
 
 interface PartnersSectionProps {
   partners: Partner[];
@@ -50,7 +50,9 @@ const PartnersSection = ({
       <DataTable
         columns={columns}
         data={filteredPartners}
-        setSelectedPartner={setSelectedPartner}
+        setSelectedItem={setSelectedPartner}
+        className="max-h-[120px] overflow-x-hidden"
+        selectable
       />
       <PartnerDetails isLoading={isLoading} partnerDetails={selectedPartner} />
     </div>

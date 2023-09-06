@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/DropdownMenu";
 import Button from "@/ui/Button";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
-import CopyButton from "../CopyButton";
+import CopyButton from "@/components/CopyButton";
 
 export const columns: ColumnDef<ServerFunction>[] = [
   {
