@@ -1,7 +1,7 @@
 import { Server } from "@/types/api";
 import SectionHeader from "@/components/SectionHeader";
-import { DataTable } from "./servers/data-table";
-import { columns } from "./servers/columns";
+import { DataTable } from "@/ui/DataTable";
+import { columns } from "@/components/servers/columns";
 import { Dispatch, SetStateAction } from "react";
 
 interface ServersSectionProps {
@@ -21,7 +21,10 @@ const ServersSection = ({
       <DataTable
         columns={columns}
         data={servers}
-        onRowClick={setSelectedServer}
+        setSelectedItem={setSelectedServer}
+        isLoading={isLoading}
+        selectable
+        sortable
       />
     </div>
   );

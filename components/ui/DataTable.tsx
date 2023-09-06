@@ -25,11 +25,12 @@ import Button from "./Button";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  setSelectedItem: Dispatch<SetStateAction<TData | null>>;
-  className: string;
+  setSelectedItem?: Dispatch<SetStateAction<TData | null>>;
+  className?: string;
   selectable?: boolean;
   multiSelect?: boolean;
   sortable?: boolean;
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -40,6 +41,7 @@ export function DataTable<TData, TValue>({
   selectable = false,
   multiSelect = false,
   sortable = false,
+  isLoading = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -56,7 +58,10 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const classes = cn("rounded-md border w-full overflow-y-scroll", className);
+  const classes = cn(
+    "rounded-md border w-full h-full overflow-y-scroll",
+    className
+  );
 
   return (
     <div className={classes}>
@@ -84,7 +89,7 @@ export function DataTable<TData, TValue>({
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                        <ArrowUpDown className="h-4 w-4 text-slate-500 hover:text-slate-700" />
                       </Button>
                     </TableHead>
                   );

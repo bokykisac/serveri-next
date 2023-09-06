@@ -1,7 +1,7 @@
 import SectionHeader from "@/components/SectionHeader";
-import { DataTable } from "@/components/vpns/data-table";
 import { columns } from "@/components/vpns/columns";
 import { VPNConnection } from "@/types/api";
+import { DataTable } from "@/ui/DataTable";
 
 interface VpnSectionProps {
   vpnConnections: VPNConnection[];
