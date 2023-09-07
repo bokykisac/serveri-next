@@ -16,7 +16,7 @@ const ServersSection = ({
   isLoading,
 }: ServersSectionProps) => {
   return (
-    <div className="flex flex-grow flex-col py-1 px-2 p-3 border h-full border-slate-300 rounded-md shadow-lg">
+    <div className="relative flex flex-grow flex-col py-1 px-2 p-3 border h-full border-slate-300 rounded-md shadow-lg">
       <SectionHeader title="Servers" />
       <DataTable
         columns={columns}
@@ -25,6 +25,7 @@ const ServersSection = ({
         isLoading={isLoading}
         selectable
         sortable
+        canHideColumns
       />
     </div>
   );

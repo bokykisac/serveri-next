@@ -1,7 +1,8 @@
 "use client";
 
 import Skeleton from "@/ui/Skeleton";
-import { PlusSquare } from "lucide-react";
+import { Plus } from "lucide-react";
+import Button from "@/ui/Button";
 
 interface SectionHeaderProps {
   title: string;
@@ -11,20 +12,21 @@ interface SectionHeaderProps {
 const SectionHeader = ({ title, isLoading }: SectionHeaderProps) => {
   return (
     <>
-      <div className="flex text-center items-center justify-center">
-        <div className="mr-auto" />
-        <span className="px-2 truncate font-semibold text-sm">
+      <div className="flex text-center align-middle items-center">
+        <span className="px-2 truncate font-semibold text-sm justify-center text-center align-middle">
           {isLoading ? (
             <Skeleton className="w-20 h-[14px] bg-slate-200" />
           ) : (
             title
           )}
         </span>
-        <div className="ml-auto">
-          <PlusSquare className="text-red-900 hover:text-red-700 hover:cursor-pointer" />
+        <div className="ml-auto whitespace-nowrap">
+          <Button variant="ghost" size="xs" className="whitespace-nowrap">
+            <Plus className="mr-2 w-4 h-4" />
+            Add New
+          </Button>
         </div>
       </div>
-      <hr className="mx-5 bg-slate-700" />
     </>
   );
 };

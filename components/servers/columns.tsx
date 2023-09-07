@@ -113,5 +113,6 @@ export const columns: ColumnDef<Server>[] = [
         </div>
       );
     },
+    enableHiding: false,
   },
 ];

@@ -31,7 +31,7 @@ const PartnersSection = ({
 
   const classes = cn(
     isSearchFocused ? "w-[30vw]" : "w-[250px]",
-    "py-1 px-2 transition-all ease-in-out duration-300 max-w-[30vw] min-w-[250px] border border-slate-300 rounded-md shadow-lg"
+    "relative py-1 px-2 transition-all ease-in-out duration-300 max-w-[30vw] min-w-[250px] border border-slate-300 rounded-md shadow-lg"
   );
 
   return (

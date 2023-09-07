@@ -10,10 +10,11 @@ export const buttonVariants = cva(
       variant: {
         default: "bg-slate-900 text-white hover:bg-slate-800",
         secondary: "bg-red-600 text-white hover:bg-red-500",
+        header: "px-1 bg-transparent data-[state=open]:bg-transparent",
         outline:
           "text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-300",
         ghost:
-          "bg-transparent hover:bg-slate-100  data-[state=open]:bg-transparent",
+          "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-red-800  data-[state=open]:bg-transparent",
         link: "bg-transparent underline-offset-4 hover:underline text-slate-90 hover:bg-transparent",
         dropdown:
           "bg-transparent  data-[state=open]:bg-transparent hover:bg-slate-200 hover:text-red-600",

@@ -7,6 +7,7 @@ import {
   useReactTable,
   SortingState,
   getSortedRowModel,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -19,8 +20,16 @@ import {
 } from "@/ui/Table";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState } from "react";
-import { ArrowUpDown } from "lucide-react";
-import Button from "./Button";
+import { ChevronsUpDown, Settings2 } from "lucide-react";
+import Button from "@/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/ui/DropdownMenu";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,6 +40,7 @@ interface DataTableProps<TData, TValue> {
   multiSelect?: boolean;
   sortable?: boolean;
   isLoading?: boolean;
+  canHideColumns?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,8 +52,10 @@ export function DataTable<TData, TValue>({
   multiSelect = false,
   sortable = false,
   isLoading = false,
+  canHideColumns = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -53,18 +65,55 @@ export function DataTable<TData, TValue>({
     enableMultiRowSelection: multiSelect,
     onSortingChange: sortable ? setSorting : undefined,
     getSortedRowModel: sortable ? getSortedRowModel() : undefined,
+    onColumnVisibilityChange: canHideColumns ? setColumnVisibility : undefined,
     state: {
       sorting,
+      columnVisibility,
     },
   });
 
   const classes = cn(
-    "rounded-md border w-full h-full overflow-y-scroll",
+    "rounded-md border w-full h-full overflow-y-auto",
     className
   );
 
   return (
     <div className={classes}>
+      {canHideColumns && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size="xs"
+              variant="ghost"
+              className="absolute right-0 top-0 mr-28 mt-1"
+            >
+              <Settings2 className="mr-2 h-4 w-4" />
+              View
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="bg-white">
+            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize hover:bg-slate-200"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.columnDef.header as string}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -75,13 +124,13 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       <Button
                         size="xs"
-                        variant="ghost"
+                        variant="header"
                         onClick={() =>
                           header.column.toggleSorting(
                             header.column.getIsSorted() === "asc"
                           )
                         }
-                        className="px-1 hover:bg-slate-200 hover:font-semibold"
+                        className="group"
                       >
                         {header.isPlaceholder
                           ? null
@@ -89,7 +138,7 @@ export function DataTable<TData, TValue>({
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                        <ArrowUpDown className="h-4 w-4 text-slate-500 hover:text-slate-700" />
+                        <ChevronsUpDown className="group-hover:text-red-700 mx-1 w-4 text-slate-500" />
                       </Button>
                     </TableHead>
                   );

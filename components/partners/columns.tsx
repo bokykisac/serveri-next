@@ -47,6 +47,7 @@ export const columns: ColumnDef<Partner>[] = [
         </div>
       );
     },
+    enableHiding: false,
   },
   {
     accessorKey: "id",

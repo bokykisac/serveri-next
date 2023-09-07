@@ -97,5 +97,6 @@ export const columns: ColumnDef<VPNConnection>[] = [
         </div>
       );
     },
+    enableHiding: false,
   },
 ];
