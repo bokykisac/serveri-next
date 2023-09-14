@@ -5,7 +5,7 @@ import SectionHeader from "@/components/SectionHeader";
 import { Partner, PartnerDetail } from "@/types/api";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { DataTable } from "@/ui/DataTable";
-import { columns } from "@/components/partners/columns";
+import { columns } from "@/components/table-columns/partner-columns";
 import { cn } from "@/lib/utils";
 import PartnerDetails from "@/components/PartnerDetails";
 

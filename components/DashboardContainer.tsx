@@ -11,9 +11,9 @@ import {
 } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import VpnSection from "./VpnSection";
-import ServersSection from "./ServersSection";
-import ServerFunctionsSection from "./ServerFunctionsSection";
+import VpnSection from "@/components/VpnSection";
+import ServersSection from "@/components/ServersSection";
+import ServerFunctionsSection from "@/components/ServerFunctionsSection";
 
 type PartnerDetailsResponse = {
   partner: PartnerDetail;
@@ -78,7 +78,10 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
             isLoading={partnerDetailsQueryLoading}
             selectedPartner={partnerDetailsData?.partner}
           />
-          <VpnSection vpnConnections={partnerDetailsData?.serverVpns || []} />
+          <VpnSection
+            vpnConnections={partnerDetailsData?.serverVpns || []}
+            isLoading={partnerDetailsQueryLoading}
+          />
         </div>
         <ServersSection
           servers={partnerDetailsData?.servers || []}

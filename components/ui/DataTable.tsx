@@ -30,6 +30,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/ui/DropdownMenu";
+import Skeleton from "@/ui/Skeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -85,7 +86,7 @@ export function DataTable<TData, TValue>({
             <Button
               size="xs"
               variant="ghost"
-              className="absolute right-0 top-0 mr-28 mt-1"
+              className="absolute right-0 top-0 mt-1 mr-2"
             >
               <Settings2 className="mr-2 h-4 w-4" />
               View
@@ -159,7 +160,21 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {isLoading ? (
+            <>
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                  {Array.from({ length: 3 }).map((_e, i) => (
+                    <div className="flex py-2 last:pb-0" key={i}>
+                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
+                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
+                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
+                    </div>
+                  ))}
+                </TableCell>
+              </TableRow>
+            </>
+          ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}

@@ -1,7 +1,7 @@
 import { Server } from "@/types/api";
 import SectionHeader from "@/components/SectionHeader";
 import { DataTable } from "@/ui/DataTable";
-import { columns } from "@/components/servers/columns";
+import { columns } from "@/components/table-columns/server-columns";
 import { Dispatch, SetStateAction } from "react";
 
 interface ServersSectionProps {
