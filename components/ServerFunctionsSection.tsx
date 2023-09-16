@@ -20,6 +20,7 @@ const ServerFunctionsSection = ({
         data={serverFunctions}
         canHideColumns
         sortable
+        isLoading={isLoading}
       />
     </div>
   );

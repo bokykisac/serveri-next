@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import Button from "@/ui/Button";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import clsx from "clsx";
 
@@ -91,26 +91,32 @@ export const columns: ColumnDef<Server>[] = [
       );
 
       return (
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="dropdown" className={buttonClasses}>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Edit className="mr-2 h-4 w-4" />
-                <span>Edit</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span>Remove</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="dropdown" className={buttonClasses}>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-white">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Edit</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash2 className="mr-2 h-4 w-4" />
+              <span>Remove</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <DatabaseBackup className="mr-2 h-4 w-4" />
+              <span>Backup Info</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
     enableHiding: false,

@@ -1,17 +1,17 @@
 "use client";
 
+import PartnerDetails from "@/components/PartnerDetails";
 import SearchInput from "@/components/SearchInput";
 import SectionHeader from "@/components/SectionHeader";
-import { Partner, PartnerDetail } from "@/types/api";
-import { type Dispatch, type SetStateAction, useState } from "react";
-import { DataTable } from "@/ui/DataTable";
 import { columns } from "@/components/table-columns/partner-columns";
 import { cn } from "@/lib/utils";
-import PartnerDetails from "@/components/PartnerDetails";
+import { Partner, PartnerDetail } from "@/types/api";
+import { DataTable } from "@/ui/DataTable";
+import { useState } from "react";
 
 interface PartnersSectionProps {
   partners: Partner[];
-  setSelectedPartner: Dispatch<SetStateAction<Partner | null>>;
+  setSelectedPartner: (selectedPartner: Partner) => void;
   isLoading: boolean;
   selectedPartner?: PartnerDetail;
 }

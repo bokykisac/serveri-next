@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/ui/Table";
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ChevronsUpDown, Settings2 } from "lucide-react";
 import Button from "@/ui/Button";
 import {
@@ -35,7 +35,9 @@ import Skeleton from "@/ui/Skeleton";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  setSelectedItem?: Dispatch<SetStateAction<TData | null>>;
+  setSelectedItem?:
+    | Dispatch<SetStateAction<TData | null>>
+    | ((selectedItem: TData) => void);
   className?: string;
   selectable?: boolean;
   multiSelect?: boolean;
@@ -57,6 +59,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -67,11 +70,19 @@ export function DataTable<TData, TValue>({
     onSortingChange: sortable ? setSorting : undefined,
     getSortedRowModel: sortable ? getSortedRowModel() : undefined,
     onColumnVisibilityChange: canHideColumns ? setColumnVisibility : undefined,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnVisibility,
+      rowSelection,
     },
   });
+
+  useEffect(() => {
+    if (data.length === 0) {
+      setRowSelection({});
+    }
+  }, [data]);
 
   const classes = cn(
     "rounded-md border w-full h-full overflow-y-auto",

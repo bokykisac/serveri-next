@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import Button from "@/ui/Button";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal, Trash2, DatabaseBackup } from "lucide-react";
 import clsx from "clsx";
 
 export const columns: ColumnDef<Partner>[] = [
@@ -41,6 +41,10 @@ export const columns: ColumnDef<Partner>[] = [
               <DropdownMenuItem>
                 <Trash2 className="mr-2 h-4 w-4" />
                 <span>Remove</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <DatabaseBackup className="mr-2 h-4 w-4" />
+                <span>Backup Info</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

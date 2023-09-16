@@ -1,6 +1,9 @@
 "use client";
 
 import PartnersSection from "@/components/PartnersSection";
+import ServerFunctionsSection from "@/components/ServerFunctionsSection";
+import ServersSection from "@/components/ServersSection";
+import VpnSection from "@/components/VpnSection";
 import axios from "@/lib/axios";
 import {
   Partner,
@@ -10,10 +13,8 @@ import {
   VPNConnection,
 } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
-import VpnSection from "@/components/VpnSection";
-import ServersSection from "@/components/ServersSection";
-import ServerFunctionsSection from "@/components/ServerFunctionsSection";
 
 type PartnerDetailsResponse = {
   partner: PartnerDetail;
@@ -40,6 +41,8 @@ interface DashboardContainerProps {
 }
 
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
+  const { data } = useSession();
+
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
   const [selectedServer, setSelectedServer] = useState<Server | null>(null);
 
@@ -68,13 +71,27 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const serverFunctionsQueryLoading =
     serverFunctionsLoading && serverFunctionsFetching;
 
+  const isAdmin = data?.user.authorities.some(
+    // TODO: update user auth type
+    (group) => group.authority === "Partneri"
+  );
+
+  const servers = isAdmin
+    ? partnerDetailsData?.servers
+    : partnerDetailsData?.servers?.filter((server) => server.active);
+
+  const onSetSelectedPartner = (selectedPartner: Partner) => {
+    setSelectedPartner(selectedPartner);
+    setSelectedServer(null);
+  };
+
   return (
     <div className="h-screen-nav grid grid-rows-3 gap-1">
       <div className="h-screen-nav grid grid-rows-3 gap-1 p-1">
         <div className="flex gap-1 ">
           <PartnersSection
             partners={partners}
-            setSelectedPartner={setSelectedPartner}
+            setSelectedPartner={onSetSelectedPartner}
             isLoading={partnerDetailsQueryLoading}
             selectedPartner={partnerDetailsData?.partner}
           />
@@ -84,7 +101,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
           />
         </div>
         <ServersSection
-          servers={partnerDetailsData?.servers || []}
+          servers={servers || []}
           setSelectedServer={setSelectedServer}
           isLoading={partnerDetailsQueryLoading}
         />
