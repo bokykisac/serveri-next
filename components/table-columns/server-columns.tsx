@@ -1,7 +1,5 @@
 "use client";
 
-import { Server } from "@/types/api";
-import { ColumnDef } from "@tanstack/react-table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +7,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { Server } from "@/types/api";
 import Button from "@/ui/Button";
-import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
+import { format, parseISO } from "date-fns";
+import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -113,7 +114,14 @@ export const columns: ColumnDef<Server>[] = [
               }}
             >
               <DatabaseBackup className="mr-2 h-4 w-4" />
-              <span>Backup Info</span>
+              <Link
+                href={{
+                  pathname: "/backup-info",
+                  query: { type: "server", id: server.id },
+                }}
+              >
+                Backup Info
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

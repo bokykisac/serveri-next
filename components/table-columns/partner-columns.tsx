@@ -12,6 +12,7 @@ import {
 import Button from "@/ui/Button";
 import { Edit, MoreHorizontal, Trash2, DatabaseBackup } from "lucide-react";
 import clsx from "clsx";
+import Link from "next/link";
 
 export const columns: ColumnDef<Partner>[] = [
   {
@@ -42,9 +43,20 @@ export const columns: ColumnDef<Partner>[] = [
                 <Trash2 className="mr-2 h-4 w-4" />
                 <span>Remove</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
                 <DatabaseBackup className="mr-2 h-4 w-4" />
-                <span>Backup Info</span>
+                <Link
+                  href={{
+                    pathname: "/backup-info",
+                    query: { type: "partner", id: partner.id },
+                  }}
+                >
+                  Backup Info
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
