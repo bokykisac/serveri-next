@@ -10,9 +10,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import Button from "@/ui/Button";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import clsx from "clsx";
+import { Button } from "@/ui/Button";
 
 export const columns: ColumnDef<VPNConnection>[] = [
   {
@@ -46,7 +46,7 @@ export const columns: ColumnDef<VPNConnection>[] = [
 
       return (
         <a
-          className="text-red-900 underline hover:text-red-700 hover:cursor-pointer"
+          className="text-red-900 underline hover:cursor-pointer hover:text-red-700"
           href={`data:application/pdf;base64,${file}`}
           download={fileName}
         >
@@ -71,7 +71,7 @@ export const columns: ColumnDef<VPNConnection>[] = [
 
       const buttonClasses = clsx(
         "h-5 w-8 p-0",
-        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900"
+        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 
       return (

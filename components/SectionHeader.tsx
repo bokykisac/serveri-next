@@ -2,26 +2,32 @@
 
 import Skeleton from "@/ui/Skeleton";
 import { Plus } from "lucide-react";
-import Button from "@/ui/Button";
-
+import { cn } from "@/lib/utils";
+import { Button } from "@/ui/Button";
 interface SectionHeaderProps {
   title: string;
   isLoading?: boolean;
+  className?: string;
 }
 
-const SectionHeader = ({ title, isLoading }: SectionHeaderProps) => {
+const SectionHeader = ({ title, isLoading, className }: SectionHeaderProps) => {
   return (
-    <div className="flex text-center align-middle items-center">
-      <span className="px-2 truncate font-semibold text-sm justify-center text-center align-middle">
+    <div
+      className={cn(
+        "mr-20 flex items-center justify-between text-center align-middle",
+        className,
+      )}
+    >
+      <span className="justify-center truncate px-2 text-center align-middle text-sm font-semibold">
         {isLoading ? (
-          <Skeleton className="w-20 h-[14px] bg-slate-200" />
+          <Skeleton className="h-[14px] w-20 bg-slate-200" />
         ) : (
           title
         )}
       </span>
       <div className="whitespace-nowrap">
-        <Button variant="ghost" size="xs" className="whitespace-nowrap">
-          <Plus className="mr-2 w-4 h-4" />
+        <Button variant="outline" size="xs" className="whitespace-nowrap">
+          <Plus className="mr-2 h-4 w-4" />
           Add New
         </Button>
       </div>

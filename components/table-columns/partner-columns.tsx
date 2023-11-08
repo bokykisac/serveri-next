@@ -9,10 +9,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import Button from "@/ui/Button";
 import { Edit, MoreHorizontal, Trash2, DatabaseBackup } from "lucide-react";
 import clsx from "clsx";
 import Link from "next/link";
+import { Button } from "@/ui/Button";
 
 export const columns: ColumnDef<Partner>[] = [
   {
@@ -22,7 +22,7 @@ export const columns: ColumnDef<Partner>[] = [
 
       const buttonClasses = clsx(
         "h-5 w-8 p-0",
-        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900"
+        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 
       return (

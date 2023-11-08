@@ -1,7 +1,6 @@
 "use client";
 
 import { Formik, Form, FormikHelpers, Field } from "formik";
-import Button from "@/ui/Button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import ErrorMessage from "@/ui/ErrorMessage";
@@ -21,7 +20,7 @@ const UserAuthForm = () => {
 
   const handleSubmit = async (
     values: UserAuthValues,
-    { setSubmitting }: FormikHelpers<UserAuthValues>
+    { setSubmitting }: FormikHelpers<UserAuthValues>,
   ) => {
     const res = await signIn("credentials", {
       redirect: false,
@@ -67,12 +66,7 @@ const UserAuthForm = () => {
             Password
           </PasswordField>
           <ErrorMessage error={errorMessage} position="center" />
-          <Button
-            isLoading={isSubmitting}
-            type="submit"
-            variant="secondary"
-            className="w-full"
-          >
+          <Button isLoading={isSubmitting} type="submit" className="w-full">
             Login
           </Button>
         </Form>

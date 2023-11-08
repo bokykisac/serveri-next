@@ -20,8 +20,7 @@ import {
 } from "@/ui/Table";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ChevronsUpDown, Settings2 } from "lucide-react";
-import Button from "@/ui/Button";
+import { ChevronsUpDown, Filter } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -31,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/DropdownMenu";
 import Skeleton from "@/ui/Skeleton";
+import { Button } from "@/ui/Button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
 
   const classes = cn(
     "rounded-md border w-full h-full overflow-y-auto",
-    className
+    className,
   );
 
   return (
@@ -96,11 +96,11 @@ export function DataTable<TData, TValue>({
           <DropdownMenuTrigger asChild>
             <Button
               size="xs"
-              variant="ghost"
-              className="absolute right-0 top-0 mt-1 mr-2"
+              variant="outline"
+              className="absolute right-0 top-0 mr-2 mt-1"
             >
-              <Settings2 className="mr-2 h-4 w-4" />
-              View
+              <Filter className="mr-2 h-4 w-4" />
+              Filter
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="bg-white">
@@ -136,21 +136,21 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       <Button
                         size="xs"
-                        variant="header"
+                        variant="ghost"
                         onClick={() =>
                           header.column.toggleSorting(
-                            header.column.getIsSorted() === "asc"
+                            header.column.getIsSorted() === "asc",
                           )
                         }
-                        className="group"
+                        className="group hover:text-primary/70"
                       >
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
-                        <ChevronsUpDown className="group-hover:text-red-700 mx-1 w-4 text-slate-500" />
+                        <ChevronsUpDown className="mx-1 w-4 text-slate-500 group-hover:text-primary/70" />
                       </Button>
                     </TableHead>
                   );
@@ -162,7 +162,7 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 );
@@ -172,19 +172,17 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {isLoading ? (
-            <>
-              <TableRow>
-                <TableCell colSpan={columns.length}>
-                  {Array.from({ length: 3 }).map((_e, i) => (
-                    <div className="flex py-2 last:pb-0" key={i}>
-                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
-                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
-                      <Skeleton className="w-full h-3 mx-3 bg-slate-200" />
-                    </div>
-                  ))}
-                </TableCell>
-              </TableRow>
-            </>
+            <TableRow>
+              <TableCell colSpan={columns.length}>
+                {Array.from({ length: 3 }).map((_e, i) => (
+                  <div className="flex py-2 last:pb-0" key={i}>
+                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
+                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
+                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
+                  </div>
+                ))}
+              </TableCell>
+            </TableRow>
           ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
@@ -198,7 +196,7 @@ export function DataTable<TData, TValue>({
                 }}
                 className={cn(
                   selectable &&
-                    "data-[state=selected]:bg-red-200 hover:bg-slate-100 hover:cursor-pointer"
+                    "hover:cursor-pointer hover:bg-slate-100 data-[state=selected]:bg-red-200",
                 )}
               >
                 {row.getVisibleCells().map((cell) => (

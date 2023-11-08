@@ -5,15 +5,15 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 const SearchInput = ({ placeholder, ...props }: SearchInputProps) => {
   return (
-    <div className="relative flex items-center mt-2 focus:bg-red-800">
+    <div className="relative mt-2 flex items-center focus:bg-red-800">
       <input
         placeholder={placeholder || "Start typing..."}
-        className="peer w-full pl-7 outline-none focus:pl-0 placeholder:text-sm placeholder:ml-5 focus:placeholder-transparent focus:outline-none focus:border-b-primary-color transition-all ease-in-out duration-300 bg-transparent border-b-2 border-slate-700"
+        className="peer w-full border-b-2 border-slate-700 bg-transparent pl-7 outline-none transition-all duration-300 ease-in-out placeholder:ml-5 placeholder:text-sm focus:border-b-primary focus:pl-0 focus:placeholder-transparent focus:outline-none"
         {...props}
       />
       <Search
         size={20}
-        className="transition-all ease-out duration-600 peer-focus:text-transparent absolute text-slate-700"
+        className="duration-600 absolute text-slate-700 transition-all ease-out peer-focus:text-transparent"
       />
     </div>
   );

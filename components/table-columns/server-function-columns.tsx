@@ -9,10 +9,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import Button from "@/ui/Button";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import CopyButton from "@/components/CopyButton";
 import clsx from "clsx";
+import { Button } from "@/ui/Button";
 
 export const columns: ColumnDef<ServerFunction>[] = [
   {
@@ -73,7 +73,7 @@ export const columns: ColumnDef<ServerFunction>[] = [
 
       const buttonClasses = clsx(
         "h-5 w-8 p-0",
-        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900"
+        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 
       return (

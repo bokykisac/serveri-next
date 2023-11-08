@@ -8,12 +8,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Server } from "@/types/api";
-import Button from "@/ui/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { format, parseISO } from "date-fns";
 import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/ui/Button";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Server>[] = [
 
       const buttonClasses = clsx(
         "h-5 w-8 p-0",
-        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900"
+        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 
       return (
