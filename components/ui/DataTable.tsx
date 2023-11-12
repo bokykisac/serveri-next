@@ -31,6 +31,7 @@ import {
 } from "@/ui/DropdownMenu";
 import Skeleton from "@/ui/Skeleton";
 import { Button } from "@/ui/Button";
+import { Server } from "@/types/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,6 +45,7 @@ interface DataTableProps<TData, TValue> {
   sortable?: boolean;
   isLoading?: boolean;
   canHideColumns?: boolean;
+  selectedItem?: TData;
 }
 
 export function DataTable<TData, TValue>({
@@ -56,6 +58,7 @@ export function DataTable<TData, TValue>({
   sortable = false,
   isLoading = false,
   canHideColumns = false,
+  selectedItem,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -79,6 +82,7 @@ export function DataTable<TData, TValue>({
   });
 
   useEffect(() => {
+    table.getRow;
     if (data.length === 0) {
       setRowSelection({});
     }
@@ -142,7 +146,7 @@ export function DataTable<TData, TValue>({
                             header.column.getIsSorted() === "asc",
                           )
                         }
-                        className="group hover:text-primary/70"
+                        className="group font-semibold hover:text-primary/70"
                       >
                         {header.isPlaceholder
                           ? null
@@ -184,28 +188,52 @@ export function DataTable<TData, TValue>({
               </TableCell>
             </TableRow>
           ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                onClick={() => {
-                  if (selectable && typeof setSelectedItem === "function") {
-                    row.toggleSelected();
-                    setSelectedItem(row.original);
-                  }
-                }}
-                className={cn(
-                  selectable &&
-                    "hover:cursor-pointer hover:bg-slate-100 data-[state=selected]:bg-red-200",
-                )}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            table.getRowModel().rows.map((row) => {
+              //@ts-ignore
+              const serverFunctionTypeId = row.original?.serverFunctionType?.id;
+              const validIds = ["1", "2", "3", "4", "9"];
+              let highlightServerFunction = false;
+              if (
+                serverFunctionTypeId &&
+                validIds.includes(serverFunctionTypeId)
+              ) {
+                highlightServerFunction = true;
+              }
+
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    if (selectable && typeof setSelectedItem === "function") {
+                      row.toggleSelected();
+                      setSelectedItem(row.original);
+                    }
+                  }}
+                  className={cn(
+                    selectable &&
+                      "hover:cursor-pointer hover:bg-slate-100 data-[state=selected]:bg-red-200",
+                    //@ts-ignore
+                    { "bg-red-200": selectedItem?.id === row.original.id },
+                    {
+                      "bg-zinc-200/80 text-zinc-500":
+                        //@ts-ignore
+                        row.original.active === false,
+                    },
+                    { "bg-yellow-100": highlightServerFunction },
+                  )}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">

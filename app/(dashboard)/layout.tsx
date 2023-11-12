@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { SectionContextProvider } from "@/components/SectionContext";
 import type { ReactNode } from "react";
 
 interface LayoutProps {
@@ -8,8 +9,10 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <Navbar />
-      {children}
+      <SectionContextProvider>
+        <Navbar />
+        {children}
+      </SectionContextProvider>
     </>
   );
 };

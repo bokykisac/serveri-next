@@ -25,6 +25,8 @@ const CopyButton = ({ children }: CopyButtonProps) => {
     }
   };
 
+  if (!children) return "-";
+
   return (
     <div className="flex flex-row gap-2">
       {children}

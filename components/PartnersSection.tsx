@@ -54,6 +54,7 @@ const PartnersSection = ({
         setSelectedItem={setSelectedPartner}
         className="max-h-[120px] overflow-x-hidden"
         selectable
+        selectedItem={selectedPartner}
       />
       <PartnerDetails isLoading={isLoading} partnerDetails={selectedPartner} />
     </div>

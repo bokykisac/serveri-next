@@ -51,8 +51,8 @@ export const columns: ColumnDef<Partner>[] = [
                 <DatabaseBackup className="mr-2 h-4 w-4" />
                 <Link
                   href={{
-                    pathname: "/backup-info",
-                    query: { type: "partner", id: partner.id },
+                    pathname: `/backup-info/${partner.id}`,
+                    query: { type: "partner" },
                   }}
                 >
                   Backup Info

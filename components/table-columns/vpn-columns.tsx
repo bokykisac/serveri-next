@@ -22,6 +22,9 @@ export const columns: ColumnDef<VPNConnection>[] = [
   {
     accessorKey: "ipAddress",
     header: "IP Address",
+    cell: ({ row }) => {
+      return <CopyButton>{row.getValue("ipAddress")}</CopyButton>;
+    },
   },
   {
     accessorKey: "username",

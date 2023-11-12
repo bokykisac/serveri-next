@@ -14,6 +14,12 @@ import { format, parseISO } from "date-fns";
 import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/ui/Button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/ui/accordion";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -76,6 +82,10 @@ export const columns: ColumnDef<Server>[] = [
   {
     accessorKey: "comment",
     header: "Comment",
+    cell: ({ row }) => {
+      const comment = row.original.comment;
+      return <span className="text-ellipsis">{comment}</span>;
+    },
   },
   {
     accessorKey: "id",

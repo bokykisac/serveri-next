@@ -5,19 +5,29 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/ui/Button";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
 const Navbar = () => {
   const { data } = useSession();
+  // const searchParams = useSearchParams();
+
+  // const createQueryString = useCallback(() => {
+  //   if (!searchParams) return "";
+  //   const params = new URLSearchParams(searchParams);
+  //   return params.toString();
+  // }, [searchParams]);
 
   const user = data?.user.name;
 
   return (
-    <nav className="bg-zinc-800">
+    <nav className="bg-zinc-900">
       <div className="max-auto  px-2">
         <div className="relative flex h-10 items-center justify-between">
           <div className="flex flex-1 items-center justify-start">
             <div className="flex flex-shrink-0 items-center ">
               <Image
+                priority
                 src="/MIS_logo.png"
                 alt="M&I Logo"
                 width={70}

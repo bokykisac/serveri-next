@@ -10,7 +10,7 @@ interface VpnSectionProps {
 
 const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
   return (
-    <div className="relative flex flex-grow flex-col py-1 px-2 border h-full border-slate-300 rounded-md shadow-lg">
+    <div className="relative flex h-full flex-grow flex-col rounded-md border border-slate-300 px-2 py-1 shadow-lg">
       <SectionHeader title="VPN connections" />
       <DataTable
         columns={columns}

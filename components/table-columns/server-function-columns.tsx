@@ -26,6 +26,9 @@ export const columns: ColumnDef<ServerFunction>[] = [
   {
     accessorKey: "username",
     header: "Username",
+    cell: ({ row }) => {
+      return <CopyButton>{row.getValue("username")}</CopyButton>;
+    },
   },
   {
     accessorKey: "password",
