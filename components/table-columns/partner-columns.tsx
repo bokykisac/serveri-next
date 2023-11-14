@@ -52,7 +52,7 @@ export const columns: ColumnDef<Partner>[] = [
                 <Link
                   href={{
                     pathname: `/backup-info/${partner.id}`,
-                    query: { type: "partner" },
+                    query: { type: "partner", partnerName: partner.name },
                   }}
                 >
                   Backup Info

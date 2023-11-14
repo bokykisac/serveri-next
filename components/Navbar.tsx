@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-zinc-900">
-      <div className="max-auto  px-2">
+      <div className="max-auto px-2">
         <div className="relative flex h-10 items-center justify-between">
           <div className="flex flex-1 items-center justify-start">
             <div className="flex flex-shrink-0 items-center ">

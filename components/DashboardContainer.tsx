@@ -51,27 +51,6 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     setSelectedServer,
   } = useContext(SectionContext);
 
-  // consider putting this in useEffect
-  // const [selectedPartner, setSelectedPartner] = useState<Partner | null>(() => {
-  //   const prevSelectedPartnerId = searchParams?.get("partnerId");
-  //   if (prevSelectedPartnerId) {
-  //     const queryData = queryClient.getQueriesData<PartnerDetailsResponse>([
-  //       "partnerClickQuery",
-  //       prevSelectedPartnerId,
-  //     ]);
-
-  //     if (queryData.length > 0) {
-  //       const prevSelectedPartner = queryData[0][1];
-
-  //       if (prevSelectedPartner) {
-  //         return prevSelectedPartner.partner;
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // });
-  // const [selectedServer, setSelectedServer] = useState<Server | null>(null);
-
   const {
     data: partnerDetailsData,
     isLoading: partnerDetailsLoading,

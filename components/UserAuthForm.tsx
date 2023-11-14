@@ -1,13 +1,14 @@
 "use client";
 
-import { Formik, Form, FormikHelpers, Field } from "formik";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { Button } from "@/ui/Button";
 import ErrorMessage from "@/ui/ErrorMessage";
+import FormInput from "@/components/ui/FormInput";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import { User } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { User2, KeyRound, User } from "lucide-react";
+import { useState } from "react";
 import PasswordField from "./PasswordField";
-import Input from "@/ui/Input";
 
 type UserAuthValues = {
   username: string;
@@ -49,7 +50,7 @@ const UserAuthForm = () => {
       {({ isSubmitting }) => (
         <Form className="w-full">
           <Field
-            as={Input}
+            as={FormInput}
             type="text"
             name="username"
             label="Username"

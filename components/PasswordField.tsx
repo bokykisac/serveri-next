@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Field, type FieldAttributes } from "formik";
-import Input from "@/ui/Input";
+import FormInput from "@/components/ui/FormInput";
 
 export interface PasswordFieldProps extends FieldAttributes<any> {}
 
@@ -19,7 +19,7 @@ const PasswordField = ({
 
   return (
     <Field
-      as={Input}
+      as={FormInput}
       {...props}
       type={isVisible ? "text" : "password"}
       name={name}

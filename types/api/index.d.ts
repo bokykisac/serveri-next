@@ -74,3 +74,19 @@ export type ServerFunction = {
   username: string;
   version: string;
 };
+
+export type Backupinfo = {
+  id: number;
+  time: string;
+  partnerName: string;
+  hostname: string;
+  publicIp: string;
+  name: string;
+  actionObject: string;
+  size: string;
+  duration: string;
+  speed: string;
+  comment: string;
+  actionOk: boolean;
+  version: number;
+};
