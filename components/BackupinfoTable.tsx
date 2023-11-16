@@ -2,7 +2,9 @@
 
 import { Backupinfo } from "@/types/api";
 
-import { columns } from "@/components/table-columns/backupinfo-columns";
+import { columns } from "@/components/table/table-columns/backupinfo-columns";
+import { DataTablePagination } from "@/components/table/Pagination";
+import { cn } from "@/lib/utils";
 import { Button } from "@/ui/Button";
 import {
   Table,
@@ -12,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/Table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
 import {
   flexRender,
   getCoreRowModel,
@@ -19,12 +22,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
+  getSortedRowModel,
 } from "@tanstack/react-table";
-import { ChevronLeft, Dot, HelpCircle, Info } from "lucide-react";
+import { ChevronLeft, HelpCircle } from "lucide-react";
 import Filter from "./table/Filter";
-import { DataTablePagination } from "@/components/table/Pagination";
-import { cn } from "@/lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 interface BackupinfoTableProps {
   data: Backupinfo[];
@@ -33,6 +35,8 @@ interface BackupinfoTableProps {
 }
 
 const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
+  const { push } = useRouter();
+
   const table = useReactTable({
     data,
     columns,
@@ -55,6 +59,7 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   const headerText = {
@@ -72,9 +77,9 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
   };
 
   return (
-    <div className="grainy h-[calc(100vh-2.5rem)]">
+    <>
       <div className="flex w-full items-center justify-between border border-b px-2 py-2">
-        <Button size="xs" variant="ghost">
+        <Button size="xs" variant="ghost" onClick={() => push("/")}>
           <ChevronLeft className="h-4 w-4" />
           Back
         </Button>
@@ -83,7 +88,7 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
             headerText[type]
           ) : (
             <span>
-              Showing backupinfo of{" "}
+              Showing backup info of{" "}
               <span className="text-primary">all partners</span> for the last{" "}
               <span className="text-primary">10 days.</span>
             </span>
@@ -96,11 +101,11 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
           <TooltipContent side="bottom">
             <div className="flex flex-col p-1 font-normal">
               <div className="flex gap-3 py-1">
-                <Dot className="h-4 w-8 bg-green-300 text-green-300" />
+                <div className="h-4 w-8 bg-green-300" />
                 <span>Action was successful.</span>
               </div>
               <div className="flex gap-3 py-1">
-                <Dot className="h-4 w-8 bg-red-300 text-red-300" />
+                <div className="h-4 w-8 bg-red-300" />
                 <span>Action failed.</span>
               </div>
             </div>
@@ -155,7 +160,7 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
         </TableBody>
       </Table>
       <DataTablePagination table={table} />
-    </div>
+    </>
   );
 };
 

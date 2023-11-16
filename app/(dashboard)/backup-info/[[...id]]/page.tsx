@@ -28,7 +28,7 @@ const BackupInfoPage = async ({
     data = await axios.get<Backupinfo[]>("/backupinfo/getAll/10");
   }
 
-  return <BackupInfo data={data.data} type={type} partnerName={partnerName}/>;
+  return <BackupInfo data={data.data} type={type} partnerName={partnerName} />;
 };
 
 export default BackupInfoPage;

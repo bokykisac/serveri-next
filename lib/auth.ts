@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         };
 
         const token = Buffer.from(`${username}:${password}`, "utf8").toString(
-          "base64"
+          "base64",
         );
 
         try {
@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
               Authorization: `Basic ${token}`,
             },
           });
+          console.log(data);
           return data;
         } catch (err) {
           if (err instanceof AxiosError) {

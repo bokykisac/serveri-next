@@ -109,6 +109,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
           servers={servers || []}
           setSelectedServer={setSelectedServer}
           isLoading={partnerDetailsQueryLoading}
+          selectedServer={selectedServer}
         />
         <ServerFunctionsSection
           serverFunctions={serverFunctionsData || []}

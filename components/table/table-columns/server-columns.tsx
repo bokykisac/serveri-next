@@ -8,18 +8,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Server } from "@/types/api";
+import { Button } from "@/ui/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { format, parseISO } from "date-fns";
 import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/ui/Button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/ui/accordion";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -126,7 +120,7 @@ export const columns: ColumnDef<Server>[] = [
               <DatabaseBackup className="mr-2 h-4 w-4" />
               <Link
                 href={{
-                  pathname: "/backup-info",
+                  pathname: `/backup-info/${server.id}`,
                   query: { type: "server", id: server.id },
                 }}
               >

@@ -1,5 +1,5 @@
 import SectionHeader from "@/components/SectionHeader";
-import { columns } from "@/components/table-columns/vpn-columns";
+import { columns } from "@/components/table/table-columns/vpn-columns";
 import { VPNConnection } from "@/types/api";
 import { DataTable } from "@/ui/DataTable";
 

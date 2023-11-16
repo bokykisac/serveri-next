@@ -3,7 +3,7 @@
 import PartnerDetails from "@/components/PartnerDetails";
 import SearchInput from "@/components/SearchInput";
 import SectionHeader from "@/components/SectionHeader";
-import { columns } from "@/components/table-columns/partner-columns";
+import { columns } from "@/components/table/table-columns/partner-columns";
 import { cn } from "@/lib/utils";
 import { Partner, PartnerDetail } from "@/types/api";
 import { DataTable } from "@/ui/DataTable";

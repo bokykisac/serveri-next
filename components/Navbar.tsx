@@ -1,23 +1,13 @@
 "use client";
 
+import { Button } from "@/ui/Button";
 import { User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/ui/Button";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 
 const Navbar = () => {
   const { data } = useSession();
-  // const searchParams = useSearchParams();
-
-  // const createQueryString = useCallback(() => {
-  //   if (!searchParams) return "";
-  //   const params = new URLSearchParams(searchParams);
-  //   return params.toString();
-  // }, [searchParams]);
-
   const user = data?.user.name;
 
   return (

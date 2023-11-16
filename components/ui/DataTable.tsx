@@ -2,25 +2,16 @@
 
 import {
   ColumnDef,
+  SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  SortingState,
   getSortedRowModel,
-  VisibilityState,
+  useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/ui/Table";
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ChevronsUpDown, Filter } from "lucide-react";
+import { Button } from "@/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -30,8 +21,16 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/DropdownMenu";
 import Skeleton from "@/ui/Skeleton";
-import { Button } from "@/ui/Button";
-import { Server } from "@/types/api";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/ui/Table";
+import { ChevronsUpDown, Filter } from "lucide-react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,7 +44,7 @@ interface DataTableProps<TData, TValue> {
   sortable?: boolean;
   isLoading?: boolean;
   canHideColumns?: boolean;
-  selectedItem?: TData;
+  selectedItem?: TData | null;
 }
 
 export function DataTable<TData, TValue>({
