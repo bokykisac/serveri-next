@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/Table";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/Tooltip";
 import {
   flexRender,
   getCoreRowModel,
