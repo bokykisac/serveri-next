@@ -6,10 +6,10 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="w-full">
+  <div className="h-full w-full bg-[#FCF5ED]">
     <table
       ref={ref}
-      className={cn("w-full caption-bottom text-sm", className)}
+      className={cn("w-full caption-bottom bg-[#FCF5ED] text-sm", className)}
       {...props}
     />
   </div>
@@ -32,11 +32,7 @@ const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
+  <tbody ref={ref} className={cn("", className)} {...props} />
 ));
 TableBody.displayName = "TableBody";
 
@@ -56,11 +52,7 @@ const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
-  <tr
-    ref={ref}
-    className={cn("border-b transition-colors", className)}
-    {...props}
-  />
+  <tr ref={ref} className={cn("transition-colors", className)} {...props} />
 ));
 TableRow.displayName = "TableRow";
 
@@ -71,7 +63,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "grainy h-7 whitespace-nowrap px-1 text-left align-middle font-semibold [&:has([role=checkbox])]:pr-0",
+      "h-7 whitespace-nowrap bg-[#CE5A67] px-1 text-left align-middle font-semibold text-[#FCF5ED] [&:has([role=checkbox])]:pr-0",
       className,
     )}
     {...props}
@@ -85,7 +77,10 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-1 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn(
+      "border border-[#F4BF96]/40 p-1 align-middle [&:has([role=checkbox])]:pr-0",
+      className,
+    )}
     {...props}
   />
 ));

@@ -145,7 +145,7 @@ export function DataTable<TData, TValue>({
                             header.column.getIsSorted() === "asc",
                           )
                         }
-                        className="group font-semibold hover:text-primary/70"
+                        className="group font-semibold hover:text-white"
                       >
                         {header.isPlaceholder
                           ? null
@@ -153,7 +153,7 @@ export function DataTable<TData, TValue>({
                               header.column.columnDef.header,
                               header.getContext(),
                             )}
-                        <ChevronsUpDown className="mx-1 w-4 text-slate-500 group-hover:text-primary/70" />
+                        <ChevronsUpDown className="mx-1 w-4 text-[#1F1717] group-hover:text-[#FCF5ED]" />
                       </Button>
                     </TableHead>
                   );
@@ -211,7 +211,7 @@ export function DataTable<TData, TValue>({
                   }}
                   className={cn(
                     selectable &&
-                      "hover:cursor-pointer hover:bg-slate-100 data-[state=selected]:bg-red-200",
+                      "hover:cursor-pointer hover:bg-[#F4BF96]/60 data-[state=selected]:bg-red-200",
                     //@ts-ignore
                     { "bg-red-200": selectedItem?.id === row.original.id },
                     {
@@ -235,7 +235,10 @@ export function DataTable<TData, TValue>({
             })
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 border-0 text-center"
+              >
                 No results.
               </TableCell>
             </TableRow>

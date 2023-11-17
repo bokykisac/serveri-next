@@ -18,7 +18,7 @@ const ServersSection = ({
   selectedServer,
 }: ServersSectionProps) => {
   return (
-    <div className="overflow-x-au relative flex h-full flex-grow flex-col rounded-md border border-slate-300 p-3 px-2 py-1 shadow-lg">
+    <div className="relative flex h-full flex-grow flex-col overflow-x-auto rounded-md border border-stone-400 bg-stone-200 p-3 px-2 py-1">
       <SectionHeader title="Servers" />
       <DataTable
         columns={columns}

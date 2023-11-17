@@ -1,5 +1,6 @@
 "use client";
 
+import CopyButton from "@/components/CopyButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +20,10 @@ export const columns: ColumnDef<Server>[] = [
   {
     accessorKey: "ipAddress",
     header: "IP1",
+    cell: ({ row }) => {
+      const ipAddress = row.original.ipAddress;
+      return <CopyButton>{ipAddress}</CopyButton>;
+    },
   },
   {
     accessorKey: "ipAddress2",

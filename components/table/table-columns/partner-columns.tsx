@@ -66,10 +66,6 @@ export const columns: ColumnDef<Partner>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => {
