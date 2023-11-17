@@ -78,6 +78,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
 
   const isAdmin = data?.user.authorities.some(
     // TODO: update user auth type
+    //@ts-ignore
     (group) => group.authority === "Partneri",
   );
 
