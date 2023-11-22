@@ -2,8 +2,8 @@
 
 import { Backupinfo } from "@/types/api";
 
-import { columns } from "@/components/table/table-columns/backupinfo-columns";
 import { DataTablePagination } from "@/components/table/Pagination";
+import { columns } from "@/components/table/table-columns/backupinfo-columns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/Button";
 import {
@@ -21,20 +21,26 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
-  useReactTable,
   getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 import { ChevronLeft, HelpCircle } from "lucide-react";
-import Filter from "./table/Filter";
 import { useRouter } from "next/navigation";
+import Filter from "@/components/table/Filter";
 
 interface BackupinfoTableProps {
   data: Backupinfo[];
-  type: "partner" | "server" | undefined;
-  partnerName: string | undefined;
+  type: "partner" | "server" | "all";
+  partnerName?: string;
+  hostname?: string;
 }
 
-const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
+const BackupinfoTable = ({
+  data,
+  type,
+  partnerName,
+  hostname,
+}: BackupinfoTableProps) => {
   const { push } = useRouter();
 
   const table = useReactTable({
@@ -42,7 +48,8 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
     columns,
     state: {
       columnVisibility: {
-        partnerName: type !== "partner",
+        partnerName: type === "all",
+        hostname: type !== "server",
         actionOk: false,
       },
       columnSizing: {
@@ -63,6 +70,13 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
   });
 
   const headerText = {
+    all: (
+      <span>
+        Showing backup info of{" "}
+        <span className="text-primary">all partners</span> for the last{" "}
+        <span className="text-primary">10 days.</span>
+      </span>
+    ),
     partner: (
       <span>
         Showing backup info for partner{" "}
@@ -71,29 +85,21 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
     ),
     server: (
       <span>
-        Showing backup info for <span className="text-primary">server</span>
+        Showing backup info for server{" "}
+        <span className="text-primary">{hostname}</span> from partner{" "}
+        <span className="text-primary">{partnerName}</span>
       </span>
     ),
   };
 
   return (
-    <>
+    <div className="grainy">
       <div className="flex w-full items-center justify-between border border-b px-2 py-2">
         <Button size="xs" variant="ghost" onClick={() => push("/")}>
           <ChevronLeft className="h-4 w-4" />
           Back
         </Button>
-        <div className="mx-auto text-lg font-bold">
-          {type ? (
-            headerText[type]
-          ) : (
-            <span>
-              Showing backup info of{" "}
-              <span className="text-primary">all partners</span> for the last{" "}
-              <span className="text-primary">10 days.</span>
-            </span>
-          )}
-        </div>
+        <div className="mx-auto text-lg font-bold">{headerText[type]}</div>
         <Tooltip delayDuration={150}>
           <TooltipTrigger className="mr-3 cursor-default align-middle">
             <HelpCircle className="h-6 w-6 text-primary/70" />
@@ -117,7 +123,11 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} style={{ width: header.getSize() }}>
+                <TableHead
+                  key={header.id}
+                  style={{ width: header.getSize() }}
+                  className="text-palette-black grainy"
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -160,7 +170,7 @@ const BackupinfoTable = ({ data, type, partnerName }: BackupinfoTableProps) => {
         </TableBody>
       </Table>
       <DataTablePagination table={table} />
-    </>
+    </div>
   );
 };
 

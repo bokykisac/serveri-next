@@ -4,7 +4,11 @@ import { Backupinfo } from "@/types/api";
 
 interface BackupInfoPageProps {
   params: { id: string };
-  searchParams: { type: "partner" | "server" | undefined; partnerName: string };
+  searchParams: {
+    type: "partner" | "server" | undefined;
+    partnerName: string;
+    hostname: string;
+  };
 }
 
 const BackupInfoPage = async ({
@@ -12,7 +16,7 @@ const BackupInfoPage = async ({
   searchParams,
 }: BackupInfoPageProps) => {
   const { id } = params;
-  const { type, partnerName } = searchParams;
+  const { type, partnerName, hostname } = searchParams;
 
   let data = null;
 
@@ -28,7 +32,14 @@ const BackupInfoPage = async ({
     data = await axios.get<Backupinfo[]>("/backupinfo/getAll/10");
   }
 
-  return <BackupInfo data={data.data} type={type} partnerName={partnerName} />;
+  return (
+    <BackupInfo
+      data={data.data}
+      type={type}
+      partnerName={partnerName}
+      hostname={hostname}
+    />
+  );
 };
 
 export default BackupInfoPage;

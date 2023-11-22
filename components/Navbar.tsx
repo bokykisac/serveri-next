@@ -4,7 +4,7 @@ import { Button } from "@/ui/Button";
 import { User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
+import NavLink from "./NavLink";
 
 const Navbar = () => {
   const { data } = useSession();
@@ -25,32 +25,13 @@ const Navbar = () => {
               />
             </div>
 
-            <div className="sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                <Link
-                  href="/"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
-                >
-                  Dashboard
-                </Link>
-                <a
-                  href="#"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
-                >
-                  Team
-                </a>
-                <a
-                  href="#"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
-                >
-                  Projects
-                </a>
-                <a
-                  href="#"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white"
-                >
-                  Calendar
-                </a>
+            <div className="sm:ml-10 sm:block">
+              <div className="flex">
+                <NavLink to="/">Dashboard</NavLink>
+                <NavLink to="/backup-info">Backup Info</NavLink>
+                <NavLink to="/colleagues">Colleagues</NavLink>
+                <NavLink to="/database-transfer">Database Transfer</NavLink>
+                <NavLink to="/about">About</NavLink>
               </div>
             </div>
           </div>

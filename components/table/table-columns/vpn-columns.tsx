@@ -73,7 +73,7 @@ export const columns: ColumnDef<VPNConnection>[] = [
       const vpn = row.original;
 
       const buttonClasses = clsx(
-        "h-5 w-8 p-0",
+        "h-5 w-8 p-0 hover:bg-inherit hover:text-primary",
         row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 

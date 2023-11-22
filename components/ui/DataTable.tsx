@@ -87,10 +87,7 @@ export function DataTable<TData, TValue>({
     }
   }, [data]);
 
-  const classes = cn(
-    "rounded-md border w-full h-full overflow-y-auto",
-    className,
-  );
+  const classes = cn("rounded-md w-full h-full overflow-y-auto", className);
 
   return (
     <div className={classes}>
@@ -176,12 +173,12 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={columns.length}>
+              <TableCell className="border-0" colSpan={columns.length}>
                 {Array.from({ length: 3 }).map((_e, i) => (
                   <div className="flex py-2 last:pb-0" key={i}>
-                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
-                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
-                    <Skeleton className="mx-3 h-3 w-full bg-slate-200" />
+                    <Skeleton className="mx-3 h-3 w-full" />
+                    <Skeleton className="mx-3 h-3 w-full" />
+                    <Skeleton className="mx-3 h-3 w-full" />
                   </div>
                 ))}
               </TableCell>
@@ -211,11 +208,14 @@ export function DataTable<TData, TValue>({
                   }}
                   className={cn(
                     selectable &&
-                      "hover:cursor-pointer hover:bg-[#F4BF96]/60 data-[state=selected]:bg-red-200",
-                    //@ts-ignore
-                    { "bg-red-200": selectedItem?.id === row.original.id },
+                      "hover:bg-palette-orange/30 data-[state=selected]:bg-palette-red hover:cursor-pointer data-[state=selected]:text-white",
                     {
-                      "bg-zinc-200/80 text-zinc-500":
+                      "bg-palette-red hover:bg-palette-red text-white hover:text-white":
+                        //@ts-ignore
+                        selectedItem?.id === row.original.id,
+                    },
+                    {
+                      "bg-stone-200 text-zinc-500":
                         //@ts-ignore
                         row.original.active === false,
                     },

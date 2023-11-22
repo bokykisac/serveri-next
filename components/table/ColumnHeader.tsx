@@ -35,7 +35,7 @@ export function DataTableColumnHeader<TData, TValue>({
       <Button
         variant="ghost"
         size="sm"
-        className="-ml-3 h-8 data-[state=open]:bg-accent"
+        className="-ml-3 h-8 font-semibold data-[state=open]:bg-accent"
         onClick={() => toggleSort()}
       >
         <span>{title}</span>

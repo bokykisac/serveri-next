@@ -1,13 +1,15 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { toast } from "@/ui/Toast";
 import { Copy } from "lucide-react";
 
 interface CopyButtonProps {
   children: string;
+  isRowSelected?: boolean;
 }
 
-const CopyButton = ({ children }: CopyButtonProps) => {
+const CopyButton = ({ children, isRowSelected }: CopyButtonProps) => {
   const copyText = async () => {
     try {
       await navigator.clipboard.writeText(children.trimEnd());
@@ -28,10 +30,15 @@ const CopyButton = ({ children }: CopyButtonProps) => {
   if (!children) return "-";
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row justify-between gap-2">
       {children}
-      <button type="button" onClick={copyText}>
-        <Copy size={18} className="text-slate-500 hover:text-slate-400" />
+      <button type="button" onClick={copyText} className="pr-1">
+        <Copy
+          size={18}
+          className={cn("hover:text-palette-red text-primary", {
+            "hover:text-palette-beige text-palette-orange": isRowSelected,
+          })}
+        />
       </button>
     </div>
   );

@@ -1,6 +1,8 @@
 "use client";
 
+import BackupinfoLink from "@/components/BackupinfoLink";
 import CopyButton from "@/components/CopyButton";
+import { SectionContext } from "@/components/SectionContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +17,7 @@ import clsx from "clsx";
 import { format, parseISO } from "date-fns";
 import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useContext } from "react";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -22,7 +25,8 @@ export const columns: ColumnDef<Server>[] = [
     header: "IP1",
     cell: ({ row }) => {
       const ipAddress = row.original.ipAddress;
-      return <CopyButton>{ipAddress}</CopyButton>;
+      const isSelected = row.getIsSelected();
+      return <CopyButton isRowSelected={isSelected}>{ipAddress}</CopyButton>;
     },
   },
   {
@@ -96,7 +100,7 @@ export const columns: ColumnDef<Server>[] = [
       const server = row.original;
 
       const buttonClasses = clsx(
-        "h-5 w-8 p-0",
+        "h-5 w-8 p-0 hover:bg-inherit hover:text-primary",
         row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 
@@ -122,15 +126,11 @@ export const columns: ColumnDef<Server>[] = [
                 e.stopPropagation();
               }}
             >
-              <DatabaseBackup className="mr-2 h-4 w-4" />
-              <Link
-                href={{
-                  pathname: `/backup-info/${server.id}`,
-                  query: { type: "server", id: server.id },
-                }}
-              >
-                Backup Info
-              </Link>
+              <BackupinfoLink
+                id={server.id}
+                selectedServer={server}
+                type="server"
+              />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -10,9 +10,9 @@ interface PartnerDetailsProps {
 const PartnerDetails = ({ isLoading, partnerDetails }: PartnerDetailsProps) => {
   if (isLoading) {
     const skeletonRows = [...Array(3)].map((_, index) => (
-      <div key={index} className="flex flex-row gap-1 my-3 items-center">
-        <Skeleton className="w-5 h-3 bg-slate-200" />
-        <Skeleton className="w-2/3 h-2 bg-slate-200" />
+      <div key={index} className="my-3 flex flex-row items-center gap-1">
+        <Skeleton className="h-3 w-5 bg-stone-300" />
+        <Skeleton className="h-2 w-2/3 bg-stone-300" />
       </div>
     ));
 
@@ -22,7 +22,7 @@ const PartnerDetails = ({ isLoading, partnerDetails }: PartnerDetailsProps) => {
   if (!partnerDetails) return null;
 
   return (
-    <div className="flex flex-col text-xs gap-1 mt-1 text-slate-600">
+    <div className="mt-1 flex flex-col gap-1 text-xs text-slate-600">
       <div className="flex items-center gap-2">
         <div>
           <UserSquare2 className="text-red-900" size={18} />

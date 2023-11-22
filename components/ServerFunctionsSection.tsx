@@ -13,7 +13,7 @@ const ServerFunctionsSection = ({
   isLoading,
 }: ServerFunctionsSectionProps) => {
   return (
-    <div className="relative flex h-full flex-grow flex-col rounded-md border border-slate-300 p-3 px-2 py-1 shadow-lg">
+    <div className="relative flex h-full flex-grow flex-col rounded-md border  border-slate-300 bg-stone-100 p-3 px-2 py-1 shadow-lg">
       <SectionHeader title="Server Functions" />
       <DataTable
         columns={columns}

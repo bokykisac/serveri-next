@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:text-primary/70",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white",
         dropdown:
           "bg-transparent hover:bg-slate-200/60 hover:text-primary data-[state=open]:bg-transparent",
       },

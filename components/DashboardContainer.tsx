@@ -1,6 +1,7 @@
 "use client";
 
 import PartnersSection from "@/components/PartnersSection";
+import { SectionContext } from "@/components/SectionContext";
 import ServerFunctionsSection from "@/components/ServerFunctionsSection";
 import ServersSection from "@/components/ServersSection";
 import VpnSection from "@/components/VpnSection";
@@ -12,11 +13,9 @@ import {
   ServerFunction,
   VPNConnection,
 } from "@/types/api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useContext, useState } from "react";
-import { SectionContext } from "@/components/SectionContext";
+import { useContext } from "react";
 
 type PartnerDetailsResponse = {
   partner: PartnerDetail;
@@ -78,7 +77,6 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
 
   const isAdmin = data?.user.authorities.some(
     // TODO: update user auth type
-    //@ts-ignore
     (group) => group.authority === "Partneri",
   );
 
