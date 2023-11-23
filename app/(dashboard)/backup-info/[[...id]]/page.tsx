@@ -5,7 +5,7 @@ import { Backupinfo } from "@/types/api";
 interface BackupInfoPageProps {
   params: { id: string };
   searchParams: {
-    type: "partner" | "server" | undefined;
+    type: "partner" | "server" | "all";
     partnerName: string;
     hostname: string;
   };
