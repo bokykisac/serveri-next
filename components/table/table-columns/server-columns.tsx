@@ -2,7 +2,6 @@
 
 import BackupinfoLink from "@/components/BackupinfoLink";
 import CopyButton from "@/components/CopyButton";
-import { SectionContext } from "@/components/SectionContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +14,7 @@ import { Button } from "@/ui/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { format, parseISO } from "date-fns";
-import { DatabaseBackup, Edit, MoreHorizontal, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { useContext } from "react";
+import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
 export const columns: ColumnDef<Server>[] = [
   {
@@ -126,11 +123,7 @@ export const columns: ColumnDef<Server>[] = [
                 e.stopPropagation();
               }}
             >
-              <BackupinfoLink
-                id={server.id}
-                selectedServer={server}
-                type="server"
-              />
+              <BackupinfoLink selectedItem={server} selectedType="server" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,7 +1,6 @@
 "use client";
 
-import { Partner } from "@/types/api";
-import { ColumnDef } from "@tanstack/react-table";
+import BackupinfoLink from "@/components/BackupinfoLink";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +8,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { Edit, MoreHorizontal, Trash2, DatabaseBackup } from "lucide-react";
-import clsx from "clsx";
-import Link from "next/link";
+import { Partner } from "@/types/api";
 import { Button } from "@/ui/Button";
+import { ColumnDef } from "@tanstack/react-table";
+import clsx from "clsx";
+import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
 export const columns: ColumnDef<Partner>[] = [
   {
@@ -48,15 +48,7 @@ export const columns: ColumnDef<Partner>[] = [
                   e.stopPropagation();
                 }}
               >
-                <DatabaseBackup className="mr-2 h-4 w-4" />
-                <Link
-                  href={{
-                    pathname: `/backup-info/${partner.id}`,
-                    query: { type: "partner", partnerName: partner.name },
-                  }}
-                >
-                  Backup Info
-                </Link>
+                <BackupinfoLink selectedItem={partner} selectedType="partner" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

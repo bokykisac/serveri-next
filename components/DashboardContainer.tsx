@@ -85,7 +85,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     ? partnerDetailsData?.servers
     : partnerDetailsData?.servers?.filter((server) => server.active);
 
-  const onSetSelectedPartner = (selectedPartner: Partner) => {
+  const onSetSelectedPartner = (selectedPartner: Partner | null) => {
     setSelectedPartner(selectedPartner);
     setSelectedServer(null);
   };

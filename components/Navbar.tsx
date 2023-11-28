@@ -4,7 +4,8 @@ import { Button } from "@/ui/Button";
 import { User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import NavLink from "./NavLink";
+import NavLink from "@/components/NavLink";
+import BackupinfoLink from "@/components/BackupinfoLink";
 
 const Navbar = () => {
   const { data } = useSession();
@@ -27,11 +28,11 @@ const Navbar = () => {
 
             <div className="sm:ml-10 sm:block">
               <div className="flex">
-                <NavLink to="/">Dashboard</NavLink>
-                <NavLink to="/backup-info">Backup Info</NavLink>
-                <NavLink to="/colleagues">Colleagues</NavLink>
-                <NavLink to="/database-transfer">Database Transfer</NavLink>
-                <NavLink to="/about">About</NavLink>
+                <NavLink href="/">Dashboard</NavLink>
+                <BackupinfoLink isNav />
+                <NavLink href="/colleagues">Colleagues</NavLink>
+                <NavLink href="/database-transfer">Database Transfer</NavLink>
+                <NavLink href="/about">About</NavLink>
               </div>
             </div>
           </div>
