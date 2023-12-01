@@ -27,7 +27,6 @@ export const authOptions: NextAuthOptions = {
               Authorization: `Basic ${token}`,
             },
           });
-          console.log(data);
           return data;
         } catch (err) {
           if (err instanceof AxiosError) {

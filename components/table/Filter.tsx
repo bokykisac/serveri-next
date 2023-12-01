@@ -14,7 +14,6 @@ const Filter = ({ column }: FilterProps) => {
       className="px-1"
       placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
       onChange={(event) => {
-        console.log("menja");
         return column.setFilterValue(event.target.value);
       }}
       value={(columnFilterValue ?? "") as string}

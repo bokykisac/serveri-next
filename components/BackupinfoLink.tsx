@@ -48,7 +48,6 @@ const BackupinfoLink = ({
         },
       };
     } else if (selectedType === "server") {
-      console.log(selectedItem.id);
       href = {
         pathname: `/backup-info/${selectedItem.id}`,
         query: {

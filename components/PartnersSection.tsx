@@ -41,6 +41,7 @@ const PartnersSection = ({
         isLoading={isLoading}
         className="mr-0"
       />
+      <hr />
       <SearchInput
         placeholder="Search..."
         value={searchValue}
