@@ -7,9 +7,14 @@ import { Copy } from "lucide-react";
 interface CopyButtonProps {
   children: string;
   isRowSelected?: boolean;
+  className?: string;
 }
 
-const CopyButton = ({ children, isRowSelected }: CopyButtonProps) => {
+const CopyButton = ({
+  children,
+  isRowSelected,
+  className,
+}: CopyButtonProps) => {
   const copyText = async () => {
     try {
       await navigator.clipboard.writeText(children.trimEnd());
@@ -35,8 +40,8 @@ const CopyButton = ({ children, isRowSelected }: CopyButtonProps) => {
       <button type="button" onClick={copyText} className="pr-1">
         <Copy
           size={18}
-          className={cn("hover:text-palette-red text-primary", {
-            "hover:text-palette-beige text-palette-orange": isRowSelected,
+          className={cn("text-primary hover:text-palette-red", className, {
+            "text-palette-orange hover:text-palette-beige": isRowSelected,
           })}
         />
       </button>

@@ -11,4 +11,5 @@ export type Colleauge = {
   mobileNumber: string;
   premise: string | null;
   email: string;
+  photo: string;
 };
