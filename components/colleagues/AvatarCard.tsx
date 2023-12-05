@@ -27,7 +27,7 @@ const AvatarCard = ({ colleague, cardRef }: AvatarCardProps) => {
               alt={colleague.firstName}
               fill
               style={{ objectFit: "contain" }}
-              className="rounded-full opacity-60 transition delay-75 duration-300 ease-in-out group-hover:opacity-100"
+              className="rounded-full object-cover opacity-60 transition delay-75 duration-300 ease-in-out group-hover:border-primary group-hover:opacity-100 group-hover:shadow-2xl group-hover:shadow-primary"
               quality={100}
             />
           </div>
