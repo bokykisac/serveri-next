@@ -26,8 +26,9 @@ const AvatarCard = ({ colleague, cardRef }: AvatarCardProps) => {
               src={imageUrl}
               alt={colleague.firstName}
               fill
-              objectFit="contain"
-              className="opacity-70 transition delay-75 duration-300 ease-in-out group-hover:opacity-100"
+              style={{ objectFit: "contain" }}
+              className="rounded-full opacity-60 transition delay-75 duration-300 ease-in-out group-hover:opacity-100"
+              quality={100}
             />
           </div>
           <div className="flex w-1/2 flex-col-reverse justify-center">
