@@ -213,9 +213,9 @@ export function DataTable<TData, TValue>({
                   }}
                   className={cn(
                     selectable &&
-                      "hover:cursor-pointer hover:bg-palette-orange/30 data-[state=selected]:bg-palette-red data-[state=selected]:text-white",
+                      "hover:cursor-pointer hover:bg-palette-orange",
                     {
-                      "bg-palette-red text-white hover:bg-palette-red hover:text-white":
+                      "bg-palette-orange":
                         //@ts-ignore
                         selectedItem?.id === row.original.id,
                     },

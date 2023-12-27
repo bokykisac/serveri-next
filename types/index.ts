@@ -12,4 +12,5 @@ export type Colleauge = {
   premise: string | null;
   email: string;
   photo: string;
+  organizationUnit: string;
 };

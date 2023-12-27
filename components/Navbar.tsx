@@ -21,8 +21,8 @@ const Navbar = () => {
                 priority
                 src="/MIS_logo.png"
                 alt="M&I Logo"
-                width={70}
-                height={70}
+                width={85}
+                height={85}
               />
             </div>
 

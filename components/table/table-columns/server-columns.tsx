@@ -97,7 +97,7 @@ export const columns: ColumnDef<Server>[] = [
       const server = row.original;
 
       const buttonClasses = clsx(
-        "h-5 w-8 p-0 hover:bg-inherit hover:text-primary",
+        "h-5 w-8 p-0 hover:bg-inherit hover:text-white",
         row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
       );
 

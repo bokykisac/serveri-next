@@ -33,12 +33,14 @@ const AvatarCard = ({ colleague, cardRef }: AvatarCardProps) => {
           </div>
           <div className="flex w-1/2 flex-col-reverse justify-center">
             <AvatarCardText>{`${colleague.firstName} ${colleague.lastName}`}</AvatarCardText>
-            <AvatarCardText className="w-1/2" />
+            <AvatarCardText className="w-1/2">
+              {colleague.mobileNumber}
+            </AvatarCardText>
             <AvatarCardText clipboard>{colleague.email}</AvatarCardText>
             <div className="flex">
               <AvatarCardText className="rounded-full" />
               <AvatarCardText className="w-3/4">
-                {colleague.mobileNumber}
+                {colleague.organizationUnit}
               </AvatarCardText>
             </div>
           </div>
