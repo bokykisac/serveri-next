@@ -2,14 +2,14 @@
 
 import PartnerDetails from "@/components/PartnerDetails";
 import SearchInput from "@/components/SearchInput";
-import SectionHeader from "@/components/SectionHeader";
 import { columns } from "@/components/table/table-columns/partner-columns";
 import { cn } from "@/lib/utils";
 import { Partner, PartnerDetail } from "@/types/api";
+import { Button } from "@/ui/Button";
 import { DataTable } from "@/ui/DataTable";
+import Skeleton from "@/ui/Skeleton";
 import { XSquare } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/ui/Button";
 
 interface PartnersSectionProps {
   partners: Partner[];
@@ -36,11 +36,15 @@ const PartnersSection = ({
 
   return (
     <div className={classes}>
-      <SectionHeader
-        title={selectedPartner ? selectedPartner.name : "Partners"}
-        isLoading={isLoading}
-        className="mr-0"
-      />
+      <div className="flex">
+        <div className="m-auto truncate px-2 text-lg font-semibold text-palette-black">
+          {isLoading ? (
+            <Skeleton className="h-[14px] w-20 bg-stone-300" />
+          ) : (
+            <span>{selectedPartner ? selectedPartner.name : "Partners"}</span>
+          )}
+        </div>
+      </div>
       <hr />
       <SearchInput
         placeholder="Search..."
