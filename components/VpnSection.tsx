@@ -43,9 +43,11 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
                 Add New
               </Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle className="text-2xl text-center">Add new VPN connection</DialogTitle>
+            <DialogContent className="max-w-3xl">
+              <DialogHeader className="mb-6">
+                <DialogTitle className="text-center text-2xl">
+                  Add new VPN connection
+                </DialogTitle>
                 <DialogDescription>
                   Fill out the required fields for the VPN connection here.
                   Click save when you&apos;re done.

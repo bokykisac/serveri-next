@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-white hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:text-primary/70",
-        link: "text-sm font-medium text-slate-300 hover:bg-gray-700 hover:text-white",
+        link: "text-sm font-medium text-white hover:bg-gray-700 hover:text-white",
         dropdown:
           "bg-transparent hover:bg-slate-200/60 hover:text-primary data-[state=open]:bg-transparent",
       },
