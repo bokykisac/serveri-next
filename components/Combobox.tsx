@@ -48,7 +48,7 @@ export function Combobox({
             variant="outline"
             role="combobox"
             className={cn(
-              "w-[300px] justify-between",
+              "justify-between",
               !field.value && "text-muted-foreground",
             )}
           >
@@ -59,7 +59,7 @@ export function Combobox({
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0">
+      <PopoverContent className="p-0">
         <Command>
           <CommandInput placeholder={`Search ${fieldLabel}s...`} />
           <CommandEmpty>No items found.</CommandEmpty>
