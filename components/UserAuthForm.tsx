@@ -34,6 +34,12 @@ const UserAuthForm = () => {
       throw new Error("Unknown Error occurred.");
     }
 
+    const token = Buffer.from(
+      `${values.username}:${values.password}`,
+      "utf8",
+    ).toString("base64");
+    localStorage.setItem("authToken", token);
+
     setSubmitting(false);
 
     if (!res.ok) return setErrorMessage(res.error || null);

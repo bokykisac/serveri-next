@@ -12,6 +12,14 @@ const axios = primaryAxios.create({
 
 axios.interceptors.request.use(async (config) => {
   if (config.url?.includes("auth")) return config;
+  if (!isServer) {
+    const token = localStorage?.getItem("authToken");
+
+    if (!token) return config;
+
+    config.headers["Authorization"] = `Basic ${token}`;
+  }
+  // TODO: investigate this out
   if (isServer) {
     const { cookies } = await import("next/headers"),
       token = cookies().get("token")?.value;
@@ -22,7 +30,7 @@ axios.interceptors.request.use(async (config) => {
   } else {
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-      "$1"
+      "$1",
     );
 
     if (token) {

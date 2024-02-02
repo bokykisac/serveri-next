@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { FormControl } from "@/ui/Form";
 import { FieldElement, UseFormReturn } from "react-hook-form";
 import type { VPNConnectionForm } from "./forms/VPNConnectionForm";
+import { useState } from "react";
 
 type Option = {
   value: string | number;
@@ -40,8 +41,10 @@ export function Combobox({
   fieldName,
   fieldLabel,
 }: ComboboxProps) {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <FormControl>
           <Button
@@ -59,7 +62,7 @@ export function Combobox({
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="p-0">
+      <PopoverContent className="p-0" asChild>
         <Command>
           <CommandInput placeholder={`Search ${fieldLabel}s...`} />
           <CommandEmpty>No items found.</CommandEmpty>
@@ -69,8 +72,8 @@ export function Combobox({
                 value={option.label}
                 key={option.value}
                 onSelect={() => {
-                  console.log(option.value);
                   form.setValue(fieldName as any, option.value);
+                  setOpen(false);
                 }}
               >
                 <Check
