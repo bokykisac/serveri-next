@@ -14,12 +14,14 @@ import {
   FormMessage,
 } from "@/ui/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Spinner from "@/ui/Spinner";
 import { Input } from "@/ui/Input";
 import { Textarea } from "@/ui/Textarea";
+import { ChangeEvent } from "react";
+import { toast } from "@/ui/Toast";
 
 interface VPNConnectionFormProps {
   VPNConnection?: any;
@@ -27,7 +29,7 @@ interface VPNConnectionFormProps {
 
 const formSchema = z.object({
   partner: z.string(),
-  serverVpnType: z.string(),
+  serverVpnType: z.number(),
   ipAddress: z.string(),
   presharedKey: z.string(),
   username: z.string(),
@@ -35,6 +37,8 @@ const formSchema = z.object({
   groupUsername: z.string(),
   groupPassword: z.string(),
   file: z.any(),
+  filename: z.string(),
+  fileBase64: z.string(),
   description: z.string(),
 });
 
@@ -72,27 +76,95 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
     queryKey: ["allVpnTypesQuery"],
     queryFn: () => fetchAllVpnTypes(),
   });
+  const createNewVpnMutation = useMutation({
+    mutationFn: (values: VPNConnectionForm) => {
+      console.log("--- VPN ----");
+      console.log(axios.defaults.headers.common);
+      return axios
+        .post("/vpn/save", values)
+        .then(() => {
+          toast({
+            title: "Success",
+            message: "VPN connection successfully created.",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          toast({
+            title: "Error",
+            message: "Failed to create new VPN connection, please try again.",
+            type: "error",
+          });
+        });
+    },
+  });
 
   const form = useForm<VPNConnectionForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      partner: "",
-      serverVpnType: "",
-      ipAddress: "",
+      partner: undefined,
+      serverVpnType: undefined,
+      ipAddress: undefined,
       presharedKey: "",
-      username: "",
-      password: "",
+      username: undefined,
+      password: undefined,
       groupUsername: "",
       groupPassword: "",
-      file: null,
+      file: undefined,
+      fileBase64: "",
+      filename: "",
       description: "",
     },
   });
 
+  const onFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+
+    if (event.target.files && event.target.files.length) {
+      const file = event.target.files[0];
+      reader.readAsDataURL(file);
+
+      reader.onload = (ev) => {
+        const fileString = ev?.target?.result as string;
+        const c = fileString?.indexOf(",");
+
+        if (c === null) {
+          toast({
+            title: "Error",
+            message: "There was an error during file upload. Please try again.",
+            type: "error",
+          });
+          return;
+        }
+
+        let base64String = fileString;
+
+        if (c !== null) {
+          base64String = fileString.substring(c + 1, fileString.length);
+        }
+
+        form.setValue("filename", file.name);
+        form.setValue("fileBase64", base64String);
+      };
+      reader.onerror = () => {
+        toast({
+          title: "Error",
+          message: "There was an error during file upload. Please try again.",
+          type: "error",
+        });
+      };
+    }
+  };
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const data = {
+      ...values,
+      file: values.fileBase64,
+    };
+
+    delete (data as any).fileBase64;
+
+    createNewVpnMutation.mutate(data);
   };
 
   if (partnerOptionsLoading || vpnTypeOptionsLoading)
@@ -106,7 +178,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
           name="partner"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Business partner</FormLabel>
+              <FormLabel>Business partner*</FormLabel>
               <Combobox
                 field={field}
                 fieldLabel="partner"
@@ -127,7 +199,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
           name="serverVpnType"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>VPN type</FormLabel>
+              <FormLabel>VPN type*</FormLabel>
               <Combobox
                 field={field}
                 fieldLabel="VPN Type"
@@ -147,7 +219,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
             name="ipAddress"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>IP Address</FormLabel>
+                <FormLabel>IP Address*</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter IP Address"
@@ -185,7 +257,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
             name="username"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Username*</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter username"
@@ -203,7 +275,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
             name="password"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Password*</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter password"
@@ -267,6 +339,7 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
                   className="h-10"
                   type="file"
                   {...field}
+                  onChange={onFileInputChange}
                 />
               </FormControl>
               <FormMessage />
@@ -292,9 +365,19 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
           )}
         />
 
-        <div className="flex flex-row justify-between">
-          <Button type="button">Cancel</Button>
-          <Button type="submit">Submit</Button>
+        <FormDescription>Fields marked with * are required.</FormDescription>
+
+        <div className="flex flex-row justify-between pt-4">
+          <Button size="lg" type="button">
+            Cancel
+          </Button>
+          <Button
+            size="lg"
+            type="submit"
+            isLoading={createNewVpnMutation.isLoading}
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </Form>
