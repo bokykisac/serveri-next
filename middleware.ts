@@ -9,19 +9,28 @@ export default withAuth(
     const token = await getToken({ req });
     const isAuth = !!token;
 
-    const isAuthPage = pathname.startsWith("/login");
+    const requestHeaders = new Headers(req.headers);
+    requestHeaders.set("authorization", `${token?.token}`);
 
-    if (isAuthPage) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
-
-      return null;
-    }
+    const isAuthPage =
+      pathname.startsWith("/login") || pathname.startsWith("/unauthorized");
 
     if (!isAuth) {
+      if (isAuthPage) {
+        return NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+        });
+      }
       return NextResponse.redirect(new URL("/login", req.url));
     }
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   },
   {
     callbacks: {
@@ -29,5 +38,5 @@ export default withAuth(
         return true;
       },
     },
-  }
+  },
 );

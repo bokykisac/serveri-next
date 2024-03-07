@@ -75,11 +75,8 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const serverFunctionsQueryLoading =
     serverFunctionsLoading && serverFunctionsFetching;
 
-  const isAdmin = data?.user.authorities.some(
-    // TODO: update user auth type
-    //@ts-ignore
-    (group) => group.authority === "Partneri",
-  );
+  //TODO: check from session
+  const isAdmin = true;
 
   const servers = !isAdmin
     ? partnerDetailsData?.servers

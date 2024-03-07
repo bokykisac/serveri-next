@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProviders from "next-auth/providers/credentials";
-import { AxiosError } from "axios";
-import axios from "@/lib/axios";
+import axios, { AxiosError } from "axios";
+// import axios from "@/lib/axios";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -17,18 +17,14 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        const token = Buffer.from(`${username}:${password}`, "utf8").toString(
-          "base64",
-        );
-
         try {
-          const { data } = await axios.post("/auth/login", null, {
-            headers: {
-              Authorization: `Basic ${token}`,
-            },
+          const { data } = await axios.post("/auth/login", {
+            username,
+            password,
           });
           return data;
         } catch (err) {
+          //TODO: refactor those errors
           if (err instanceof AxiosError) {
             if (err?.response?.status !== 401) {
               throw new Error("Internal Server Error.");

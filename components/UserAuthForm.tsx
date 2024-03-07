@@ -8,7 +8,7 @@ import { User } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import PasswordField from "./PasswordField";
+import PasswordField from "@/components/PasswordField";
 
 type UserAuthValues = {
   username: string;
@@ -33,12 +33,6 @@ const UserAuthForm = () => {
     if (!res) {
       throw new Error("Unknown Error occurred.");
     }
-
-    const token = Buffer.from(
-      `${values.username}:${values.password}`,
-      "utf8",
-    ).toString("base64");
-    localStorage.setItem("authToken", token);
 
     setSubmitting(false);
 

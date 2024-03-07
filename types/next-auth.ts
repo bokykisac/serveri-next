@@ -21,17 +21,11 @@ type UserPrincipal = {
 };
 
 interface Token {
-  authenticated: boolean;
-  authorities: string[];
-  credentials?: string;
-  details: UserDetails;
+  errorMessage: string;
   exp: number;
   iat: number;
   jti: string;
-  name: string | null | undefined;
-  principal: UserPrincipal;
-  status: string;
-  update: () => void;
+  token: string;
 }
 
 type UserId = string;

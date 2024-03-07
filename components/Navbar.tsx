@@ -8,8 +8,8 @@ import NavLink from "@/components/NavLink";
 import BackupinfoLink from "@/components/BackupinfoLink";
 
 const Navbar = () => {
+  //TODO: extract email from token
   const { data } = useSession();
-  const user = data?.user.name;
 
   return (
     <nav className="bg-zinc-900">
@@ -40,7 +40,7 @@ const Navbar = () => {
           <div className="absolute inset-auto inset-y-0 right-0 ml-6 flex items-center gap-5 pr-2">
             <div className="flex items-center gap-2">
               <User2 className="text-slate-300" />
-              <p className="text-sm text-slate-200">{user}</p>
+              <p className="text-sm text-slate-200">ADMIN</p>
             </div>
             <Button type="button" size="xs" onClick={() => signOut()}>
               Logout
