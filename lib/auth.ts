@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
           });
           return data;
         } catch (err) {
+          console.log(err);
           //TODO: refactor those errors
           if (err instanceof AxiosError) {
             if (err?.response?.status !== 401) {
