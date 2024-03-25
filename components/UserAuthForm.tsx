@@ -23,7 +23,7 @@ const UserAuthForm = () => {
     values: UserAuthValues,
     { setSubmitting }: FormikHelpers<UserAuthValues>,
   ) => {
-    console.log("login");
+    console.log("ZAPOCINJE LOGIN");
     const res = await signIn("credentials", {
       redirect: false,
       username: values.username,

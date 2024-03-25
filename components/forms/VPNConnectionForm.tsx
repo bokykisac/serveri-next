@@ -58,7 +58,6 @@ const fetchAllPartners = async () => {
 const fetchAllVpnTypes = async () => {
   const { data } = await axios.get<VPNType[]>("/vpn-type/getAll");
   const vpnTypeOptions = data.map((vpn) => {
-    console.log(typeof vpn.id);
     return {
       value: vpn.id,
       label: vpn.name,
@@ -78,8 +77,6 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
   });
   const createNewVpnMutation = useMutation({
     mutationFn: (values: VPNConnectionForm) => {
-      console.log("--- VPN ----");
-      console.log(axios.defaults.headers.common);
       return axios
         .post("/vpn/save", values)
         .then(() => {
