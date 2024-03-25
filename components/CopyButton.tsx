@@ -47,7 +47,7 @@ const CopyButton = ({
     }
   }
 
-  const copyText = async (e: MouseEvent) => {
+  const copyText = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     await copyToClipboard(children);
     toast({
@@ -62,7 +62,7 @@ const CopyButton = ({
   return (
     <div className="flex flex-row justify-between gap-2">
       {children}
-      <button type="button" onClick={(e) => copyText(e)} className="pr-1">
+      <button type="button" onClick={copyText} className="pr-1">
         <Copy
           size={18}
           className={cn("text-primary hover:text-palette-red", className, {
