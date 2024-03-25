@@ -15,18 +15,18 @@ axios.interceptors.request.use(async (config) => {
   if (isServer) {
     const { headers } = await import("next/headers");
 
-    const token = headers().get("authorization");
+    // const token = headers().get("authorization");
 
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
+    // if (token) {
+    //   config.headers["Authorization"] = `Bearer ${token}`;
+    // }
   } else {
     const session = await getSession();
 
-    if (session && session.user && session.user.token) {
-      const token = session.user.token;
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
+    // if (session && session.user && session.user.token) {
+    //   const token = session.user.token;
+    //   config.headers["Authorization"] = `Bearer ${token}`;
+    // }
   }
 
   return config;
