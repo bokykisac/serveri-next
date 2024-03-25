@@ -23,15 +23,12 @@ const UserAuthForm = () => {
     values: UserAuthValues,
     { setSubmitting }: FormikHelpers<UserAuthValues>,
   ) => {
-    console.log("ZAPOCINJE LOGIN");
     const res = await signIn("credentials", {
       redirect: false,
       username: values.username,
       password: values.password,
       callbackUrl: "/",
     });
-    console.log("response from next signIn");
-    console.log(res);
 
     if (!res) {
       throw new Error("Unknown Error occurred.");

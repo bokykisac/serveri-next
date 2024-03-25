@@ -1,7 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProviders from "next-auth/providers/credentials";
 import axios, { AxiosError } from "axios";
-// import axios from "@/lib/axios";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -17,19 +16,15 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        axios.defaults.baseURL = "http://localhost:8080";
-        console.log(axios.defaults.baseURL);
+        axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
         try {
-          console.log("SALJE REQUEST");
           const { data } = await axios.post("/auth/login", {
             username,
             password,
           });
           return data;
         } catch (err) {
-          console.log("NEKI ERROR");
-          console.log(err);
           //TODO: refactor those errors
           if (err instanceof AxiosError) {
             if (err?.response?.status !== 401) {
