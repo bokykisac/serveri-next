@@ -17,6 +17,7 @@ const CopyButton = ({
 }: CopyButtonProps) => {
   const copyText = async () => {
     try {
+      console.log(children);
       await navigator.clipboard.writeText(children.trimEnd());
       toast({
         title: "Success!",
@@ -24,6 +25,7 @@ const CopyButton = ({
         type: "success",
       });
     } catch (error) {
+      console.log(error);
       toast({
         title: "Error.",
         message: "Could not copy text to clipboard, please try again.",
