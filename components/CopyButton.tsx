@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { toast } from "@/ui/Toast";
 import { Copy } from "lucide-react";
+import { MouseEventHandler } from "react";
 
 interface CopyButtonProps {
   children: string;
@@ -15,23 +16,45 @@ const CopyButton = ({
   isRowSelected,
   className,
 }: CopyButtonProps) => {
-  const copyText = async () => {
-    try {
-      console.log(children);
-      await navigator.clipboard.writeText(children.trimEnd());
-      toast({
-        title: "Success!",
-        message: "Text has been copied to clipboard.",
-        type: "success",
-      });
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Error.",
-        message: "Could not copy text to clipboard, please try again.",
-        type: "success",
-      });
+  async function copyToClipboard(textToCopy: string) {
+    // Navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      // Use the 'out of viewport hidden text area' trick
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+
+      // Move textarea out of the viewport so it's not visible
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "Error.",
+          message: "Could not copy text to clipboard, please try again.",
+          type: "success",
+        });
+      } finally {
+        textArea.remove();
+      }
     }
+  }
+
+  const copyText = async (e: MouseEvent) => {
+    e.stopPropagation();
+    await copyToClipboard(children);
+    toast({
+      title: "Success!",
+      message: "Text has been copied to clipboard.",
+      type: "success",
+    });
   };
 
   if (!children) return "-";
@@ -39,7 +62,7 @@ const CopyButton = ({
   return (
     <div className="flex flex-row justify-between gap-2">
       {children}
-      <button type="button" onClick={copyText} className="pr-1">
+      <button type="button" onClick={(e) => copyText(e)} className="pr-1">
         <Copy
           size={18}
           className={cn("text-primary hover:text-palette-red", className, {
