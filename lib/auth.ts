@@ -17,7 +17,11 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
+        axios.defaults.baseURL = "http://localhost:8080";
+        console.log(axios.defaults.baseURL);
+
         try {
+          console.log("SALJE REQUEST");
           const { data } = await axios.post("/auth/login", {
             username,
             password,
