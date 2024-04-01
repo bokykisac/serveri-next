@@ -27,6 +27,8 @@ module.exports = {
           orange: "#F4BF96",
           red: "#CE5A67",
           black: "#1F1717",
+          stone: "#d8c6c8cc",
+          "soft-stone": "#d8c6c84d",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

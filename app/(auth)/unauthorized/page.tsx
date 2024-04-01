@@ -33,7 +33,7 @@ const Unauthorized = () => {
         <p>
           Click{" "}
           <span
-            className="text-primary"
+            className="cursor-pointer text-primary"
             onClick={() => {
               signOut({ redirect: false }).then(() => {
                 router.push("/login");

@@ -46,7 +46,6 @@ interface DataTableProps<TData, TValue> {
   canHideColumns?: boolean;
   selectedItem?: TData | null;
 }
-
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -212,10 +211,9 @@ export function DataTable<TData, TValue>({
                     }
                   }}
                   className={cn(
-                    selectable &&
-                      "hover:cursor-pointer hover:bg-palette-orange",
+                    selectable && "hover:bg-palette-stone hover:cursor-pointer",
                     {
-                      "bg-palette-orange":
+                      "bg-palette-stone":
                         //@ts-ignore
                         selectedItem?.id === row.original.id,
                     },
