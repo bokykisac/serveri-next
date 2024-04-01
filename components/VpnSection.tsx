@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Button } from "@/ui/Button";
 import { Plus } from "lucide-react";
-import VPNConnectionForm from "./forms/VPNConnectionForm";
+import VPNConnectionForm from "@/components/forms/VPNConnectionForm";
 
 interface VpnSectionProps {
   vpnConnections: VPNConnection[];
@@ -35,7 +35,7 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
           <Dialog>
             <DialogTrigger asChild>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="xs"
                 className="float-right mr-20 whitespace-nowrap"
               >
@@ -46,7 +46,7 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
             <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
               <DialogHeader className="mb-6">
                 <DialogTitle className="text-center text-2xl">
-                  Add new VPN connection
+                  Add new <span className="text-primary">VPN connection</span>
                 </DialogTitle>
                 <DialogDescription className="text-center">
                   Fill out the required fields for the VPN connection here.

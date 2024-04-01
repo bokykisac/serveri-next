@@ -22,6 +22,7 @@ import { Input } from "@/ui/Input";
 import { Textarea } from "@/ui/Textarea";
 import { ChangeEvent } from "react";
 import { toast } from "@/ui/Toast";
+import { DialogClose } from "@/components/ui/Dialog";
 
 interface VPNConnectionFormProps {
   VPNConnection?: any;
@@ -365,9 +366,11 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
         <FormDescription>Fields marked with * are required.</FormDescription>
 
         <div className="flex flex-row justify-between pt-4">
-          <Button size="lg" type="button">
-            Cancel
-          </Button>
+          <DialogClose asChild>
+            <Button size="lg" type="button">
+              Cancel
+            </Button>
+          </DialogClose>
           <Button
             size="lg"
             type="submit"

@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenuTrigger asChild>
             <Button
               size="xs"
-              variant="outline"
+              variant="ghost"
               className="absolute right-0 top-0 mr-2 mt-1"
             >
               <Filter className="mr-2 h-4 w-4" />

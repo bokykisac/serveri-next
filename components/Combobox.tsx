@@ -17,7 +17,12 @@ import {
 } from "@/components/ui/Popover";
 import { cn } from "@/lib/utils";
 import { FormControl } from "@/ui/Form";
-import { FieldElement, UseFormReturn } from "react-hook-form";
+import {
+  FieldElement,
+  FieldValues,
+  Path,
+  UseFormReturn,
+} from "react-hook-form";
 import type { VPNConnectionForm } from "./forms/VPNConnectionForm";
 import { useState } from "react";
 
@@ -26,21 +31,21 @@ type Option = {
   label: string;
 };
 
-interface ComboboxProps {
+interface ComboboxProps<FormSchema extends FieldValues> {
   field: FieldElement;
-  form: UseFormReturn<VPNConnectionForm>;
+  form: UseFormReturn<FormSchema>;
   options: Option[];
-  fieldName: string;
+  fieldName: Path<FormSchema>;
   fieldLabel: string;
 }
 
-export function Combobox({
+export function Combobox<FormSchema extends FieldValues>({
   field,
   form,
   options = [],
   fieldName,
   fieldLabel,
-}: ComboboxProps) {
+}: ComboboxProps<FormSchema>) {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -72,7 +77,7 @@ export function Combobox({
                 value={option.label}
                 key={option.value}
                 onSelect={() => {
-                  form.setValue(fieldName as any, option.value);
+                  form.setValue(fieldName, option.value as any);
                   setOpen(false);
                 }}
               >
