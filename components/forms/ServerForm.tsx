@@ -15,6 +15,11 @@ import {
 import { Button } from "@/ui/Button";
 import { DialogClose } from "@/components/ui/Dialog";
 import { Combobox } from "@/components/Combobox";
+import axios from "@/lib/axios";
+import { SelectOption } from "@/types/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import Spinner from "@/ui/Spinner";
+import { Input } from "@/ui/Input";
 
 interface ServerFormProps {
   server?: any;
@@ -39,7 +44,66 @@ const formSchema = z.object({
 
 export type ServerForm = z.infer<typeof formSchema>;
 
+type ColleagueOption = {
+  id: number;
+  firstName: string;
+  lastName: string;
+};
+
+const fetchAllPartners = async () => {
+  const { data } = await axios.get<SelectOption[]>("/poslovni-partner/getAll");
+  const options = data.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
+  return options;
+};
+
+const fetchAllOS = async () => {
+  const { data } = await axios.get<SelectOption[]>("/os/getAll");
+  console.log(data);
+  const options = data.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
+  return options;
+};
+
+const fetchAllColleagues = async () => {
+  const { data } = await axios.get<ColleagueOption[]>(
+    "/zaposleni/getAllForSelect",
+  );
+  console.log(data);
+  const options = data.map((data) => {
+    return {
+      value: data.id,
+      label: `${data.firstName} ${data.lastName}`,
+    };
+  });
+  return options;
+};
+
 const ServerForm = ({ server }: ServerFormProps) => {
+  const { data: partnerOptions, isLoading: partnerOptionsLoading } = useQuery({
+    queryKey: ["allPartnersFormQuery"],
+    queryFn: () => fetchAllPartners(),
+  });
+
+  const { data: OSOptions, isLoading: OSOptionsLoading } = useQuery({
+    queryKey: ["allOSFormQuery"],
+    queryFn: () => fetchAllOS(),
+  });
+
+  const { data: colleaguesOptions, isLoading: colleaguesOptionsLoading } =
+    useQuery({
+      queryKey: ["allColleaguesFormQuery"],
+      queryFn: () => fetchAllColleagues(),
+    });
+
   const form = useForm<ServerForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,6 +128,9 @@ const ServerForm = ({ server }: ServerFormProps) => {
     console.log(values);
   };
 
+  if (partnerOptionsLoading || partnerOptionsLoading)
+    return <Spinner className="m-auto" />;
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -78,7 +145,7 @@ const ServerForm = ({ server }: ServerFormProps) => {
                 fieldLabel="partner"
                 form={form}
                 fieldName="partner"
-                options={[]}
+                options={partnerOptions || []}
               />
               <FormDescription>
                 Business partner for which you are creating a server.
@@ -87,6 +154,116 @@ const ServerForm = ({ server }: ServerFormProps) => {
             </FormItem>
           )}
         />
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="ipAddress"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>IP Address 1</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter IP Address 1"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="ipAddress2"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>IP Address 2</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter IP Address 2"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>Role</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter role" className="h-10" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="hostname"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>Hostname</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter hostname"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="serverOs"
+            render={({ field }) => (
+              <FormItem className="flex basis-1/2 flex-col">
+                <FormLabel>Server OS</FormLabel>
+                <Combobox<ServerForm>
+                  field={field}
+                  fieldLabel="OS"
+                  form={form}
+                  fieldName="serverOs"
+                  options={OSOptions || []}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="colleague"
+            render={({ field }) => (
+              <FormItem className="flex basis-1/2 flex-col">
+                <FormLabel>Colleague</FormLabel>
+                <Combobox<ServerForm>
+                  field={field}
+                  fieldLabel="colleague"
+                  form={form}
+                  fieldName="colleague"
+                  options={colleaguesOptions || []}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormDescription>Fields marked with * are required.</FormDescription>
 

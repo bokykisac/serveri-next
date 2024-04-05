@@ -8,13 +8,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { Partner } from "@/types/api";
+import { SelectOption } from "@/types/api";
 import { Button } from "@/ui/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
-export const columns: ColumnDef<Partner>[] = [
+export const columns: ColumnDef<SelectOption>[] = [
   {
     id: "actions",
     cell: ({ row }) => {

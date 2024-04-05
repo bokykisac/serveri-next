@@ -2,7 +2,7 @@
 
 import { Combobox } from "@/components/Combobox";
 import axios from "@/lib/axios";
-import { Partner, VPNType } from "@/types/api";
+import { SelectOption, VPNType } from "@/types/api";
 import { Button } from "@/ui/Button";
 import {
   Form,
@@ -46,7 +46,7 @@ const formSchema = z.object({
 export type VPNConnectionForm = z.infer<typeof formSchema>;
 
 const fetchAllPartners = async () => {
-  const { data } = await axios.get<Partner[]>("/poslovni-partner/getAll");
+  const { data } = await axios.get<SelectOption[]>("/poslovni-partner/getAll");
   const partnerOptions = data.map((partner) => {
     return {
       value: partner.id,

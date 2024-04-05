@@ -1,14 +1,14 @@
 "use client";
 
 import { SectionContext } from "@/components/SectionContext";
-import { Partner, Server } from "@/types/api";
+import { SelectOption, Server } from "@/types/api";
 import { DatabaseBackup } from "lucide-react";
 import { useContext } from "react";
 import NavLink from "@/components/NavLink";
 import Link from "next/link";
 
 interface BackupinfoLinkProps {
-  selectedItem?: Server | Partner;
+  selectedItem?: Server | SelectOption;
   selectedType?: "all" | "partner" | "server";
   isNav?: boolean;
 }
@@ -24,8 +24,8 @@ const BackupinfoLink = ({
   const type: "server" | "partner" | "all" = selectedServer
     ? "server"
     : selectedPartner
-    ? "partner"
-    : "all";
+      ? "partner"
+      : "all";
   const hostname = selectedServer?.hostname || selectedServer?.ipAddress;
 
   let href = {
@@ -43,7 +43,7 @@ const BackupinfoLink = ({
         pathname: `/backup-info/${selectedItem.id}`,
         query: {
           type: selectedType,
-          partnerName: (selectedItem as Partner).name,
+          partnerName: (selectedItem as SelectOption).name,
           hostname: "",
         },
       };

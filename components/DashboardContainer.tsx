@@ -7,7 +7,7 @@ import ServersSection from "@/components/ServersSection";
 import VpnSection from "@/components/VpnSection";
 import axios from "@/lib/axios";
 import {
-  Partner,
+  SelectOption,
   PartnerDetail,
   Server,
   ServerFunction,
@@ -38,7 +38,7 @@ async function fetchServerFunctions(serverId: number) {
 }
 
 interface DashboardContainerProps {
-  partners: Partner[];
+  partners: SelectOption[];
 }
 
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
@@ -82,7 +82,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     ? partnerDetailsData?.servers
     : partnerDetailsData?.servers?.filter((server) => server.active);
 
-  const onSetSelectedPartner = (selectedPartner: Partner | null) => {
+  const onSetSelectedPartner = (selectedPartner: SelectOption | null) => {
     setSelectedPartner(selectedPartner);
     setSelectedServer(null);
   };

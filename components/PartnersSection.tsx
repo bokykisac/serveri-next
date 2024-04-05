@@ -4,7 +4,7 @@ import PartnerDetails from "@/components/PartnerDetails";
 import SearchInput from "@/components/SearchInput";
 import { columns } from "@/components/table/table-columns/partner-columns";
 import { cn } from "@/lib/utils";
-import { Partner, PartnerDetail } from "@/types/api";
+import { SelectOption, PartnerDetail } from "@/types/api";
 import { Button } from "@/ui/Button";
 import { DataTable } from "@/ui/DataTable";
 import Skeleton from "@/ui/Skeleton";
@@ -12,8 +12,8 @@ import { XSquare } from "lucide-react";
 import { useState } from "react";
 
 interface PartnersSectionProps {
-  partners: Partner[];
-  setSelectedPartner: (selectedPartner: Partner | null) => void;
+  partners: SelectOption[];
+  setSelectedPartner: (selectedPartner: SelectOption | null) => void;
   isLoading: boolean;
   selectedPartner?: PartnerDetail;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Partner, Server } from "@/types/api";
+import { SelectOption, Server } from "@/types/api";
 import {
   Dispatch,
   ReactNode,
@@ -10,9 +10,9 @@ import {
 } from "react";
 
 type SectionContextType = {
-  selectedPartner: Partner | null;
+  selectedPartner: SelectOption | null;
   selectedServer: Server | null;
-  setSelectedPartner: Dispatch<SetStateAction<Partner | null>>;
+  setSelectedPartner: Dispatch<SetStateAction<SelectOption | null>>;
   setSelectedServer: Dispatch<SetStateAction<Server | null>>;
 };
 
@@ -28,7 +28,9 @@ interface SectionContextProps {
 }
 
 export const SectionContextProvider = ({ children }: SectionContextProps) => {
-  const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+  const [selectedPartner, setSelectedPartner] = useState<SelectOption | null>(
+    null,
+  );
   const [selectedServer, setSelectedServer] = useState<Server | null>(null);
 
   return (

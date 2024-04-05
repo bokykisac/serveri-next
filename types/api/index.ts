@@ -1,5 +1,5 @@
-export type Partner = {
-  id: string;
+export type SelectOption = {
+  id: string | number;
   name: string;
 };
 
