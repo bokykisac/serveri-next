@@ -19,16 +19,21 @@ export default function Error({
     <div className="flex h-screen items-center justify-center">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">
-          Ooooops, something went wrong.
+          Ooops, something went wrong.
         </h1>
-        <p>
+        <p className="m-2">
           Click{" "}
-          <span className="text-primary" onClick={() => reset()}>
+          <span
+            className="cursor-pointer text-primary hover:opacity-75"
+            onClick={() => reset()}
+          >
             here{" "}
           </span>
-          to try again;
+          to try again.
         </p>
-        <p>{error.message}</p>
+        <div className="rounded-md border border-slate-300 bg-slate-200 shadow-inner">
+          <p className="text-red-600">{error.message}</p>
+        </div>
       </div>
     </div>
   );
