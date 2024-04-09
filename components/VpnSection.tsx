@@ -13,6 +13,7 @@ import {
 import { Button } from "@/ui/Button";
 import { Plus } from "lucide-react";
 import VPNConnectionForm from "@/components/forms/VPNConnectionForm";
+import { useState } from "react";
 
 interface VpnSectionProps {
   vpnConnections: VPNConnection[];
@@ -20,6 +21,8 @@ interface VpnSectionProps {
 }
 
 const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <div className="relative flex h-full flex-grow flex-col rounded-md border  border-slate-300 bg-stone-100 px-2 py-1">
       <div className="flex">
@@ -32,7 +35,7 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
           )}
         </div>
         <div className="flex-1">
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button
                 variant="ghost"
@@ -53,7 +56,7 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
                   Click save when you&apos;re done.
                 </DialogDescription>
               </DialogHeader>
-              <VPNConnectionForm />
+              <VPNConnectionForm setOpen={setOpen} />
             </DialogContent>
           </Dialog>
         </div>

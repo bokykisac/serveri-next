@@ -1,7 +1,7 @@
 import { Server } from "@/types/api";
 import { DataTable } from "@/ui/DataTable";
 import { columns } from "@/components/table/table-columns/server-columns";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +26,8 @@ const ServersSection = ({
   isLoading,
   selectedServer,
 }: ServersSectionProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <div className="relative flex h-full flex-grow flex-col overflow-x-auto rounded-md border  border-slate-300 bg-stone-100 p-3 px-2 py-1">
       <div className="flex">
@@ -34,12 +36,13 @@ const ServersSection = ({
           <span>Servers</span>
         </div>
         <div className="flex-1">
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button
                 variant="ghost"
                 size="xs"
                 className="float-right mr-20 whitespace-nowrap"
+                onClick={() => setOpen(true)}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add New
@@ -55,7 +58,7 @@ const ServersSection = ({
                   when you&apos;re done.
                 </DialogDescription>
               </DialogHeader>
-              <ServerForm />
+              <ServerForm setOpen={setOpen} />
             </DialogContent>
           </Dialog>
         </div>

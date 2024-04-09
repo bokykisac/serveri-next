@@ -17,12 +17,17 @@ import { DialogClose } from "@/components/ui/Dialog";
 import { Combobox } from "@/components/Combobox";
 import axios from "@/lib/axios";
 import { SelectOption } from "@/types/api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/ui/Spinner";
 import { Input } from "@/ui/Input";
+import { Textarea } from "@/ui/Textarea";
+import { toast } from "@/ui/Toast";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { SectionContext } from "@/components/SectionContext";
 
 interface ServerFormProps {
   server?: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const formSchema = z.object({
@@ -32,10 +37,10 @@ const formSchema = z.object({
   role: z.string(),
   hostname: z.string(),
   serverOs: z.string(),
-  colleague: z.string(),
+  colleague: z.number(),
   model: z.string(),
-  installationDate: z.date(),
-  cpuNumber: z.number(),
+  installationDate: z.string(),
+  cpuNumber: z.string(),
   cpuType: z.string(),
   ram: z.string(),
   hddDescription: z.string(),
@@ -63,7 +68,6 @@ const fetchAllPartners = async () => {
 
 const fetchAllOS = async () => {
   const { data } = await axios.get<SelectOption[]>("/os/getAll");
-  console.log(data);
   const options = data.map((data) => {
     return {
       value: data.id,
@@ -77,7 +81,6 @@ const fetchAllColleagues = async () => {
   const { data } = await axios.get<ColleagueOption[]>(
     "/zaposleni/getAllForSelect",
   );
-  console.log(data);
   const options = data.map((data) => {
     return {
       value: data.id,
@@ -87,7 +90,10 @@ const fetchAllColleagues = async () => {
   return options;
 };
 
-const ServerForm = ({ server }: ServerFormProps) => {
+const ServerForm = ({ server, setOpen }: ServerFormProps) => {
+  const queryClient = useQueryClient();
+  const { selectedPartner } = useContext(SectionContext);
+
   const { data: partnerOptions, isLoading: partnerOptionsLoading } = useQuery({
     queryKey: ["allPartnersFormQuery"],
     queryFn: () => fetchAllPartners(),
@@ -103,6 +109,33 @@ const ServerForm = ({ server }: ServerFormProps) => {
       queryKey: ["allColleaguesFormQuery"],
       queryFn: () => fetchAllColleagues(),
     });
+
+  const createNewServerMutation = useMutation({
+    mutationFn: (values: ServerForm) => {
+      return axios
+        .post("/server/save", values)
+        .then(() => {
+          toast({
+            title: "Success",
+            message: "Server connection successfully created.",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          toast({
+            title: "Error",
+            message: "Failed to create new VPN connection, please try again.",
+            type: "error",
+          });
+        });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["partnerClickQuery", selectedPartner?.id],
+      });
+      setOpen(false);
+    },
+  });
 
   const form = useForm<ServerForm>({
     resolver: zodResolver(formSchema),
@@ -125,10 +158,10 @@ const ServerForm = ({ server }: ServerFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    createNewServerMutation.mutate(values);
   };
 
-  if (partnerOptionsLoading || partnerOptionsLoading)
+  if (partnerOptionsLoading || OSOptionsLoading || colleaguesOptionsLoading)
     return <Spinner className="m-auto" />;
 
   return (
@@ -265,6 +298,138 @@ const ServerForm = ({ server }: ServerFormProps) => {
           />
         </div>
 
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="model"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>Model</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter model"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="installationDate"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>Installation date</FormLabel>
+                <FormControl>
+                  <Input type="date" className="h-10" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="cpuNumber"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>No. CPU</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Enter CPU number"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="cpuType"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>CPU type</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter CPU type"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="ram"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>RAM</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Enter RAM"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-x-3">
+          <FormField
+            control={form.control}
+            name="hddDescription"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>HDD Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter description"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="comment"
+            render={({ field }) => (
+              <FormItem className="basis-1/2">
+                <FormLabel>Comment</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter description"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormDescription>Fields marked with * are required.</FormDescription>
 
         <div className="flex flex-row justify-between pt-4">
@@ -273,7 +438,11 @@ const ServerForm = ({ server }: ServerFormProps) => {
               Cancel
             </Button>
           </DialogClose>
-          <Button size="lg" type="submit" isLoading={false}>
+          <Button
+            size="lg"
+            type="submit"
+            isLoading={createNewServerMutation.isLoading}
+          >
             Submit
           </Button>
         </div>

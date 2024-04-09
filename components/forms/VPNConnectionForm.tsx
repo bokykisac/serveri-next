@@ -14,18 +14,20 @@ import {
   FormMessage,
 } from "@/ui/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Spinner from "@/ui/Spinner";
 import { Input } from "@/ui/Input";
 import { Textarea } from "@/ui/Textarea";
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useContext } from "react";
 import { toast } from "@/ui/Toast";
 import { DialogClose } from "@/components/ui/Dialog";
+import { SectionContext } from "../SectionContext";
 
 interface VPNConnectionFormProps {
   VPNConnection?: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const formSchema = z.object({
@@ -67,7 +69,13 @@ const fetchAllVpnTypes = async () => {
   return vpnTypeOptions;
 };
 
-const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
+const VPNConnectionForm = ({
+  VPNConnection,
+  setOpen,
+}: VPNConnectionFormProps) => {
+  const { selectedPartner } = useContext(SectionContext);
+  const queryClient = useQueryClient();
+
   const { data: partnerOptions, isLoading: partnerOptionsLoading } = useQuery({
     queryKey: ["allPartnersFormQuery"],
     queryFn: () => fetchAllPartners(),
@@ -94,6 +102,12 @@ const VPNConnectionForm = ({ VPNConnection }: VPNConnectionFormProps) => {
             type: "error",
           });
         });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["partnerClickQuery", selectedPartner?.id],
+      });
+      setOpen(false);
     },
   });
 

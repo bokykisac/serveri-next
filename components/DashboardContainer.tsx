@@ -56,7 +56,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     isFetching: partnerDetailsFetching,
   } = useQuery({
     queryKey: ["partnerClickQuery", selectedPartner?.id],
-    queryFn: () => fetchPartnerDetails(selectedPartner?.id!),
+    queryFn: () => fetchPartnerDetails((selectedPartner?.id as string)),
     enabled: !!selectedPartner,
   });
 
