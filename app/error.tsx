@@ -31,7 +31,7 @@ export default function Error({
           </span>
           to try again.
         </p>
-        <div className="rounded-md border border-slate-300 bg-slate-200 shadow-inner">
+        <div className="rounded-md border border-slate-300 bg-slate-200 p-3 shadow-inner">
           <p className="text-red-600">{error.message}</p>
         </div>
       </div>

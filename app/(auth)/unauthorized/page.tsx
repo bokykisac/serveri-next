@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 const Unauthorized = () => {
-  const router = useRouter();
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
@@ -16,12 +14,12 @@ const Unauthorized = () => {
     if (countdown === 0) {
       clearInterval(countdownInterval);
       signOut({ redirect: false }).then(() => {
-        router.push("/login");
+        window.location.href = "/login";
       });
     }
 
     return () => clearInterval(countdownInterval);
-  }, [countdown, router]);
+  }, [countdown]);
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -33,10 +31,10 @@ const Unauthorized = () => {
         <p>
           Click{" "}
           <span
-            className="cursor-pointer text-primary"
+            className="cursor-pointer text-primary hover:opacity-75"
             onClick={() => {
               signOut({ redirect: false }).then(() => {
-                router.push("/login");
+                window.location.href = "/login";
               });
             }}
           >
