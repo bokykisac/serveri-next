@@ -88,6 +88,7 @@ const ServerFunctionForm = ({
             message: "Failed to create new VPN connection, please try again.",
             type: "error",
           });
+          throw new Error("Mutation failed");
         });
     },
     onSuccess: async () => {
@@ -110,9 +111,9 @@ const ServerFunctionForm = ({
       version: undefined,
       location: undefined,
       adminAccount: undefined,
-      custom1: undefined,
-      custom2: undefined,
-      custom3: undefined,
+      custom1: "",
+      custom2: "",
+      custom3: "",
       description: undefined,
     },
   });

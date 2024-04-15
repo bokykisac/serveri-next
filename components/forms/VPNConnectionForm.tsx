@@ -101,6 +101,7 @@ const VPNConnectionForm = ({
             message: "Failed to create new VPN connection, please try again.",
             type: "error",
           });
+          throw new Error("Mutation failed");
         });
     },
     onSuccess: async () => {
