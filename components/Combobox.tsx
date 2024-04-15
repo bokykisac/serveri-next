@@ -37,6 +37,7 @@ interface ComboboxProps<FormSchema extends FieldValues> {
   options: Option[];
   fieldName: Path<FormSchema>;
   fieldLabel: string;
+  disabled?: boolean;
 }
 
 export function Combobox<FormSchema extends FieldValues>({
@@ -45,6 +46,7 @@ export function Combobox<FormSchema extends FieldValues>({
   options = [],
   fieldName,
   fieldLabel,
+  disabled,
 }: ComboboxProps<FormSchema>) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -59,6 +61,7 @@ export function Combobox<FormSchema extends FieldValues>({
               "justify-between",
               !field.value && "text-muted-foreground",
             )}
+            disabled={disabled}
           >
             {field.value
               ? options.find((option) => option.value === field.value)?.label
