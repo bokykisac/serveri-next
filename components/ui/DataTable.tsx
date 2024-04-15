@@ -32,6 +32,10 @@ import {
 import { ChevronsUpDown, Filter } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
+type TDataKeys<T, U extends keyof T> = {
+  [K in U]?: boolean;
+};
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -45,6 +49,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
   canHideColumns?: boolean;
   selectedItem?: TData | null;
+  defaultHiddenColumns?: TDataKeys<TData, keyof TData>;
 }
 export function DataTable<TData, TValue>({
   columns,
@@ -57,9 +62,12 @@ export function DataTable<TData, TValue>({
   isLoading = false,
   canHideColumns = false,
   selectedItem,
+  defaultHiddenColumns,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    (defaultHiddenColumns || {}) as VisibilityState,
+  );
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -211,7 +219,7 @@ export function DataTable<TData, TValue>({
                     }
                   }}
                   className={cn(
-                    selectable && "hover:bg-palette-stone hover:cursor-pointer",
+                    selectable && "hover:cursor-pointer hover:bg-palette-stone",
                     {
                       "bg-palette-stone":
                         //@ts-ignore

@@ -73,6 +73,14 @@ const ServersSection = ({
         sortable
         canHideColumns
         selectedItem={selectedServer}
+        defaultHiddenColumns={{
+          ipAddress2: false,
+          cpuNumber: false,
+          cpuType: false,
+          ram: false,
+          hddDescription: false,
+          model: false,
+        }}
       />
     </div>
   );

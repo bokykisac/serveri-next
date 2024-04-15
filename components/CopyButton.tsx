@@ -35,7 +35,6 @@ const CopyButton = ({
       try {
         document.execCommand("copy");
       } catch (error) {
-        console.error(error);
         toast({
           title: "Error.",
           message: "Could not copy text to clipboard, please try again.",

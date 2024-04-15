@@ -127,6 +127,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             message: "Failed to create new VPN connection, please try again.",
             type: "error",
           });
+          throw new Error("Mutation failed");
         });
     },
     onSuccess: async () => {
@@ -142,18 +143,18 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
     defaultValues: {
       partner: undefined,
       ipAddress: undefined,
-      ipAddress2: undefined,
+      ipAddress2: "",
       role: undefined,
       hostname: undefined,
       serverOs: undefined,
       colleague: undefined,
       model: undefined,
       installationDate: undefined,
-      cpuNumber: undefined,
-      cpuType: undefined,
-      ram: undefined,
+      cpuNumber: "",
+      cpuType: "",
+      ram: "",
       hddDescription: undefined,
-      comment: undefined,
+      comment: "",
     },
   });
 
