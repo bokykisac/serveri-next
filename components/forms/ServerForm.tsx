@@ -173,7 +173,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
           name="partner"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Business partner*</FormLabel>
+              <FormLabel>Business partner *</FormLabel>
               <Combobox<ServerForm>
                 field={field}
                 fieldLabel="partner"
@@ -195,7 +195,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="ipAddress"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>IP Address 1</FormLabel>
+                <FormLabel>IP Address 1 *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter IP Address 1"
@@ -233,7 +233,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="role"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Role</FormLabel>
+                <FormLabel>Role *</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter role" className="h-10" {...field} />
                 </FormControl>
@@ -247,7 +247,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="hostname"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Hostname</FormLabel>
+                <FormLabel>Hostname *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter hostname"
@@ -267,7 +267,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="serverOs"
             render={({ field }) => (
               <FormItem className="flex basis-1/2 flex-col">
-                <FormLabel>Server OS</FormLabel>
+                <FormLabel>Server OS *</FormLabel>
                 <Combobox<ServerForm>
                   field={field}
                   fieldLabel="OS"
@@ -285,7 +285,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="colleague"
             render={({ field }) => (
               <FormItem className="flex basis-1/2 flex-col">
-                <FormLabel>Colleague</FormLabel>
+                <FormLabel>Colleague *</FormLabel>
                 <Combobox<ServerForm>
                   field={field}
                   fieldLabel="colleague"
@@ -305,7 +305,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="model"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Model</FormLabel>
+                <FormLabel>Model *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter model"
@@ -323,7 +323,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="installationDate"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Installation date</FormLabel>
+                <FormLabel>Installation date *</FormLabel>
                 <FormControl>
                   <Input type="date" className="h-10" {...field} />
                 </FormControl>
@@ -399,7 +399,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="hddDescription"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>HDD Description</FormLabel>
+                <FormLabel>HDD Description *</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Enter description"
