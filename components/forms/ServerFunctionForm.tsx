@@ -26,7 +26,7 @@ import { toast } from "@/ui/Toast";
 
 interface ServerFunctionFormProps {
   serverFunction: any;
-  selectedServer: Server;
+  selectedServer: Server | null;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -102,7 +102,7 @@ const ServerFunctionForm = ({
   const form = useForm<ServerFunctionForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      server: selectedServer.id,
+      server: selectedServer?.id,
       functionType: undefined,
       username: undefined,
       password: undefined,
