@@ -110,7 +110,7 @@ const ServerFunctionForm = ({
       port: undefined,
       version: undefined,
       location: undefined,
-      adminAccount: undefined,
+      adminAccount: false,
       custom1: "",
       custom2: "",
       custom3: "",
