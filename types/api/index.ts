@@ -26,7 +26,7 @@ export type VPNConnection = {
   ipAddress: string;
   password: string;
   presharedKey: string;
-  serverVpnType: VPNType[];
+  serverVpnType: VPNType;
   username: string;
 };
 

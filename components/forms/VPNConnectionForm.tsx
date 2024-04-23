@@ -2,7 +2,7 @@
 
 import { Combobox } from "@/components/Combobox";
 import axios from "@/lib/axios";
-import { SelectOption, VPNType } from "@/types/api";
+import { SelectOption, VPNConnection, VPNType } from "@/types/api";
 import { Button } from "@/ui/Button";
 import {
   Form,
@@ -26,7 +26,7 @@ import { DialogClose } from "@/components/ui/Dialog";
 import { SectionContext } from "../SectionContext";
 
 interface VPNConnectionFormProps {
-  VPNConnection?: any;
+  VPNConnection?: VPNConnection;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -84,10 +84,20 @@ const VPNConnectionForm = ({
     queryKey: ["allVpnTypesQuery"],
     queryFn: () => fetchAllVpnTypes(),
   });
-  const createNewVpnMutation = useMutation({
+
+  const isUpdating = !!VPNConnection;
+
+  const mutationFunction = (values: VPNConnectionForm) => {
+    if (isUpdating) {
+      return axios.put("/vpn/update", { ...values, id: VPNConnection.id });
+    }
+
+    return axios.post("/vpn/save", values);
+  };
+
+  const VPNConnectionMutation = useMutation({
     mutationFn: (values: VPNConnectionForm) => {
-      return axios
-        .post("/vpn/save", values)
+      return mutationFunction(values)
         .then(() => {
           toast({
             title: "Success",
@@ -112,22 +122,39 @@ const VPNConnectionForm = ({
     },
   });
 
+  const defaultValues = isUpdating
+    ? {
+        partner: selectedPartner?.id as string,
+        serverVpnType: VPNConnection.serverVpnType.id,
+        ipAddress: VPNConnection.ipAddress,
+        presharedKey: VPNConnection.presharedKey,
+        username: VPNConnection.username,
+        password: VPNConnection.password,
+        groupUsername: VPNConnection.groupUsername,
+        groupPassword: VPNConnection.groupPassword,
+        file: VPNConnection.file,
+        fileBase64: VPNConnection.file || "",
+        filename: VPNConnection.filename || "",
+        description: VPNConnection.description,
+      }
+    : {
+        partner: undefined,
+        serverVpnType: undefined,
+        ipAddress: undefined,
+        presharedKey: "",
+        username: undefined,
+        password: undefined,
+        groupUsername: "",
+        groupPassword: "",
+        file: undefined,
+        fileBase64: "",
+        filename: "",
+        description: "",
+      };
+
   const form = useForm<VPNConnectionForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      partner: undefined,
-      serverVpnType: undefined,
-      ipAddress: undefined,
-      presharedKey: "",
-      username: undefined,
-      password: undefined,
-      groupUsername: "",
-      groupPassword: "",
-      file: undefined,
-      fileBase64: "",
-      filename: "",
-      description: "",
-    },
+    defaultValues,
   });
 
   const onFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +204,7 @@ const VPNConnectionForm = ({
 
     delete (data as any).fileBase64;
 
-    createNewVpnMutation.mutate(data);
+    VPNConnectionMutation.mutate(data);
   };
 
   if (partnerOptionsLoading || vpnTypeOptionsLoading)
@@ -389,7 +416,7 @@ const VPNConnectionForm = ({
           <Button
             size="lg"
             type="submit"
-            isLoading={createNewVpnMutation.isLoading}
+            isLoading={VPNConnectionMutation.isLoading}
           >
             Submit
           </Button>
