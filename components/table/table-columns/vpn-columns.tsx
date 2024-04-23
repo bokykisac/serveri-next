@@ -62,7 +62,7 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
       <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
         <DialogHeader className="mb-6">
           <DialogTitle className="text-center text-2xl">
-            Add new <span className="text-primary">VPN connection</span>
+            Update existing <span className="text-primary">VPN connection</span>
           </DialogTitle>
           <DialogDescription className="text-center">
             Fill out the required fields for the VPN connection here. Click save
