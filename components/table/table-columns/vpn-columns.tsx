@@ -47,12 +47,12 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="bg-white">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <Edit className="mr-2 h-4 w-4" />
-            <DialogTrigger asChild>
+          <DialogTrigger asChild>
+            <DropdownMenuItem>
+              <Edit className="mr-2 h-4 w-4" />
               <span>Edit</span>
-            </DialogTrigger>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </DialogTrigger>
           <DropdownMenuItem>
             <Trash2 className="mr-2 h-4 w-4" />
             <span>Remove</span>

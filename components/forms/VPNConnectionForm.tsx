@@ -20,7 +20,13 @@ import * as z from "zod";
 import Spinner from "@/ui/Spinner";
 import { Input } from "@/ui/Input";
 import { Textarea } from "@/ui/Textarea";
-import { ChangeEvent, Dispatch, SetStateAction, useContext } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { toast } from "@/ui/Toast";
 import { DialogClose } from "@/components/ui/Dialog";
 import { SectionContext } from "../SectionContext";
@@ -85,6 +91,10 @@ const VPNConnectionForm = ({
     queryFn: () => fetchAllVpnTypes(),
   });
 
+  const [showFilename, setShowfilename] = useState<boolean>(
+    !!VPNConnection?.file,
+  );
+
   const isUpdating = !!VPNConnection;
 
   const mutationFunction = (values: VPNConnectionForm) => {
@@ -132,7 +142,7 @@ const VPNConnectionForm = ({
         password: VPNConnection.password,
         groupUsername: VPNConnection.groupUsername,
         groupPassword: VPNConnection.groupPassword,
-        file: VPNConnection.file,
+        file: undefined,
         fileBase64: VPNConnection.file || "",
         filename: VPNConnection.filename || "",
         description: VPNConnection.description,
@@ -185,6 +195,7 @@ const VPNConnectionForm = ({
 
         form.setValue("filename", file.name);
         form.setValue("fileBase64", base64String);
+        setShowfilename(false);
       };
       reader.onerror = () => {
         toast({
@@ -382,6 +393,16 @@ const VPNConnectionForm = ({
                   onChange={onFileInputChange}
                 />
               </FormControl>
+              {showFilename && (
+                <div>
+                  <p>
+                    Current file:{" "}
+                    <span className="text-palette-red">
+                      {VPNConnection?.filename}
+                    </span>
+                  </p>
+                </div>
+              )}
               <FormMessage />
             </FormItem>
           )}
