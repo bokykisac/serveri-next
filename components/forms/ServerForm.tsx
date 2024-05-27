@@ -68,12 +68,20 @@ const fetchAllPartners = async () => {
 
 const fetchAllOS = async () => {
   const { data } = await axios.get<SelectOption[]>("/os/getAll");
+
+  data.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+
   const options = data.map((data) => {
     return {
       value: data.id,
       label: data.name,
     };
   });
+
   return options;
 };
 
@@ -141,7 +149,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
   const form = useForm<ServerForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      partner: undefined,
+      partner: selectedPartner ? (selectedPartner.id as string) : undefined,
       ipAddress: undefined,
       ipAddress2: "",
       role: undefined,
@@ -153,7 +161,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
       cpuNumber: "",
       cpuType: "",
       ram: "",
-      hddDescription: undefined,
+      hddDescription: "",
       comment: "",
     },
   });
@@ -399,7 +407,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             name="hddDescription"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>HDD Description *</FormLabel>
+                <FormLabel>HDD Description</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Enter description"
