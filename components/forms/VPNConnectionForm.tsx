@@ -397,7 +397,7 @@ const VPNConnectionForm = ({
                 <div>
                   <p>
                     Current file:{" "}
-                    <span className="text-palette-red">
+                    <span className="text-primary">
                       {VPNConnection?.filename}
                     </span>
                   </p>

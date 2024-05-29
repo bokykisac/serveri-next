@@ -23,7 +23,6 @@ import {
   Path,
   UseFormReturn,
 } from "react-hook-form";
-import type { VPNConnectionForm } from "./forms/VPNConnectionForm";
 import { useState } from "react";
 
 type Option = {

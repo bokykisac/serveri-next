@@ -49,7 +49,7 @@ export type Server = {
   ipAddress: string;
   ipAddress2: string;
   model: string;
-  ram: string;
+  ram: number;
   role: string;
   serverOS: OS;
 };

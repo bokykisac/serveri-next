@@ -16,7 +16,7 @@ import { Button } from "@/ui/Button";
 import { DialogClose } from "@/components/ui/Dialog";
 import { Combobox } from "@/components/Combobox";
 import axios from "@/lib/axios";
-import { SelectOption } from "@/types/api";
+import { SelectOption, Server } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/ui/Spinner";
 import { Input } from "@/ui/Input";
@@ -24,9 +24,10 @@ import { Textarea } from "@/ui/Textarea";
 import { toast } from "@/ui/Toast";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { SectionContext } from "@/components/SectionContext";
+import { format } from "date-fns";
 
 interface ServerFormProps {
-  server?: any;
+  server?: Server;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -118,10 +119,23 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
       queryFn: () => fetchAllColleagues(),
     });
 
-  const createNewServerMutation = useMutation({
+  const isUpdating = !!server;
+
+  const mutationFunction = (values: ServerForm) => {
+    if (isUpdating) {
+      return axios.put("/server/update", {
+        ...values,
+        id: server.id,
+        active: true,
+      });
+    }
+
+    return axios.post("/server/save", values);
+  };
+
+  const serverMutation = useMutation({
     mutationFn: (values: ServerForm) => {
-      return axios
-        .post("/server/save", values)
+      return mutationFunction(values)
         .then(() => {
           toast({
             title: "Success",
@@ -145,29 +159,50 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
       setOpen(false);
     },
   });
+  const defaultValues = isUpdating
+    ? {
+        partner: selectedPartner?.id as string,
+        ipAddress: server.ipAddress,
+        ipAddress2: server.ipAddress2,
+        role: server.role,
+        hostname: server.hostname,
+        serverOs: server.serverOS.id,
+        colleague: server.consultantId,
+        model: server.model,
+        installationDate: format(
+          new Date(server.installationDate),
+          "yyyy-MM-dd",
+        ),
+        cpuNumber: server.cpuNumber ? server.cpuNumber.toString() : "",
+        cpuType: server.cpuType,
+        ram: server.ram ? server.ram.toString() : "",
+        hddDescription: server.hddDescription,
+        comment: server.comment,
+      }
+    : {
+        partner: selectedPartner ? (selectedPartner.id as string) : undefined,
+        ipAddress: undefined,
+        ipAddress2: "",
+        role: undefined,
+        hostname: undefined,
+        serverOs: undefined,
+        colleague: undefined,
+        model: undefined,
+        installationDate: undefined,
+        cpuNumber: "",
+        cpuType: "",
+        ram: "",
+        hddDescription: "",
+        comment: "",
+      };
 
   const form = useForm<ServerForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      partner: selectedPartner ? (selectedPartner.id as string) : undefined,
-      ipAddress: undefined,
-      ipAddress2: "",
-      role: undefined,
-      hostname: undefined,
-      serverOs: undefined,
-      colleague: undefined,
-      model: undefined,
-      installationDate: undefined,
-      cpuNumber: "",
-      cpuType: "",
-      ram: "",
-      hddDescription: "",
-      comment: "",
-    },
+    defaultValues,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createNewServerMutation.mutate(values);
+    serverMutation.mutate(values);
   };
 
   if (partnerOptionsLoading || OSOptionsLoading || colleaguesOptionsLoading)
@@ -447,11 +482,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
               Cancel
             </Button>
           </DialogClose>
-          <Button
-            size="lg"
-            type="submit"
-            isLoading={createNewServerMutation.isLoading}
-          >
+          <Button size="lg" type="submit" isLoading={serverMutation.isLoading}>
             Submit
           </Button>
         </div>
