@@ -1,7 +1,14 @@
 "use client";
 
 import { ServerFunction } from "@/types/api";
-import { ColumnDef } from "@tanstack/react-table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +20,62 @@ import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import CopyButton from "@/components/CopyButton";
 import clsx from "clsx";
 import { Button } from "@/ui/Button";
+import ServerFunctionForm from "@/components/forms/ServerFunctionForm";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
+
+interface ColumnActionWrapperProps
+  extends CellContext<ServerFunction, unknown> {}
+
+// TODO: create component
+const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const serverFunction = row.original;
+
+  const buttonClasses = clsx(
+    "h-5 w-8 p-0 hover:bg-inherit hover:text-primary",
+    row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
+  );
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="dropdown" className={buttonClasses}>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="bg-white">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DialogTrigger asChild>
+            <DropdownMenuItem>
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Edit</span>
+            </DropdownMenuItem>
+          </DialogTrigger>
+          <DropdownMenuItem>
+            <Trash2 className="mr-2 h-4 w-4" />
+            <span>Remove</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
+        <DialogHeader className="mb-6">
+          <DialogTitle className="text-center text-2xl">
+            Update existing{" "}
+            <span className="text-primary">Server function</span>
+          </DialogTitle>
+          <DialogDescription className="text-center">
+            Fill out the required fields for the Server function here. Click
+            save when you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
+        <ServerFunctionForm serverFunction={serverFunction} setOpen={setOpen} />
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export const columns: ColumnDef<ServerFunction>[] = [
   {
@@ -71,37 +134,7 @@ export const columns: ColumnDef<ServerFunction>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const serverFunction = row.original;
-
-      const buttonClasses = clsx(
-        "h-5 w-8 p-0 hover:bg-inherit hover:text-primary",
-        row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
-      );
-
-      return (
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="dropdown" className={buttonClasses}>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Edit className="mr-2 h-4 w-4" />
-                <span>Edit</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span>Remove</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
+    cell: ActionWrapper,
     enableHiding: false,
   },
 ];

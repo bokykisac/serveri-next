@@ -139,14 +139,14 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
         .then(() => {
           toast({
             title: "Success",
-            message: "Server connection successfully created.",
+            message: "Server successfully created.",
             type: "success",
           });
         })
         .catch(() => {
           toast({
             title: "Error",
-            message: "Failed to create new VPN connection, please try again.",
+            message: "Failed to update server, please try again.",
             type: "error",
           });
           throw new Error("Mutation failed");

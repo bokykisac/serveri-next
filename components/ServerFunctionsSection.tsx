@@ -60,11 +60,7 @@ const ServerFunctionsSection = ({
                 </DialogDescription>
                 <hr />
               </DialogHeader>
-              <ServerFunctionForm
-                serverFunction={null}
-                selectedServer={selectedServer}
-                setOpen={setOpen}
-              />
+              <ServerFunctionForm setOpen={setOpen} />
             </DialogContent>
           </Dialog>
         </div>

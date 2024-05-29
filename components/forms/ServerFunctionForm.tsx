@@ -14,7 +14,7 @@ import {
 } from "@/ui/Form";
 import { Combobox } from "@/components/Combobox";
 import axios from "@/lib/axios";
-import { SelectOption, Server } from "@/types/api";
+import { SelectOption, ServerFunction } from "@/types/api";
 import Spinner from "@/ui/Spinner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/ui/Button";
@@ -25,8 +25,7 @@ import { Checkbox } from "@/ui/Checkbox";
 import { toast } from "@/ui/Toast";
 
 interface ServerFunctionFormProps {
-  serverFunction: any;
-  selectedServer: Server | null;
+  serverFunction?: ServerFunction;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -61,31 +60,45 @@ const fetchAllFunctionalityTypes = async () => {
 
 const ServerFunctionForm = ({
   serverFunction,
-  selectedServer,
   setOpen,
 }: ServerFunctionFormProps) => {
   const queryClient = useQueryClient();
+
+  const { selectedServer } = useContext(SectionContext);
 
   const { data, isLoading } = useQuery({
     queryKey: ["allServerFunctionalityTypes"],
     queryFn: () => fetchAllFunctionalityTypes(),
   });
 
+  const isUpdating = !!serverFunction;
+
+  const mutationFunction = (values: ServerFunctionForm) => {
+    if (isUpdating) {
+      return axios.post("server-funkcije/update", {
+        ...values,
+        id: serverFunction.id,
+        server: selectedServer?.id,
+      });
+    }
+
+    return axios.put("/server-funkcije/save", values);
+  };
+
   const createNewFunctionMutation = useMutation({
     mutationFn: (values: ServerFunctionForm) => {
-      return axios
-        .put("/server-funkcije/save", values)
+      return mutationFunction(values)
         .then(() => {
           toast({
             title: "Success",
-            message: "Server connection successfully created.",
+            message: "Server function successfully created.",
             type: "success",
           });
         })
         .catch(() => {
           toast({
             title: "Error",
-            message: "Failed to create new VPN connection, please try again.",
+            message: "Failed to update server function, please try again.",
             type: "error",
           });
           throw new Error("Mutation failed");
@@ -99,23 +112,41 @@ const ServerFunctionForm = ({
     },
   });
 
+  const defaultValues = isUpdating
+    ? {
+        server: selectedServer?.id,
+        functionType: serverFunction.serverFunctionType.id,
+        username: serverFunction.username,
+        password: serverFunction.password,
+        proccessInstanceUrl: serverFunction.proccessInstanceUrl,
+        port: serverFunction.port,
+        version: serverFunction.version,
+        location: serverFunction.location,
+        adminAccount: serverFunction.adminAccount,
+        custom1: serverFunction.custom1,
+        custom2: serverFunction.custom2,
+        custom3: serverFunction.custom3,
+        description: serverFunction.description,
+      }
+    : {
+        server: selectedServer?.id,
+        functionType: undefined,
+        username: undefined,
+        password: undefined,
+        proccessInstanceUrl: "",
+        port: "",
+        version: "",
+        location: "",
+        adminAccount: false,
+        custom1: "",
+        custom2: "",
+        custom3: "",
+        description: "",
+      };
+
   const form = useForm<ServerFunctionForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      server: selectedServer?.id,
-      functionType: undefined,
-      username: undefined,
-      password: undefined,
-      proccessInstanceUrl: undefined,
-      port: undefined,
-      version: undefined,
-      location: undefined,
-      adminAccount: false,
-      custom1: "",
-      custom2: "",
-      custom3: "",
-      description: undefined,
-    },
+    defaultValues,
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -163,7 +194,7 @@ const ServerFunctionForm = ({
           name="functionType"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Functionality type</FormLabel>
+              <FormLabel>Functionality type *</FormLabel>
               <Combobox<ServerFunctionForm>
                 field={field}
                 fieldLabel="functionType"
@@ -182,7 +213,7 @@ const ServerFunctionForm = ({
             name="username"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Username *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter username"
@@ -200,7 +231,7 @@ const ServerFunctionForm = ({
             name="password"
             render={({ field }) => (
               <FormItem className="basis-1/2">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Password *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter password"
@@ -370,7 +401,7 @@ const ServerFunctionForm = ({
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Admin account</FormLabel>
+                <FormLabel>Admin account *</FormLabel>
               </div>
             </FormItem>
           )}

@@ -28,6 +28,7 @@ import ServerForm from "@/components/forms/ServerForm";
 
 interface ColumnActionWrapperProps extends CellContext<Server, unknown> {}
 
+// TODO: create component
 const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -57,6 +58,13 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
           <DropdownMenuItem>
             <Trash2 className="mr-2 h-4 w-4" />
             <span>Remove</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <BackupinfoLink selectedItem={server} selectedType="server" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
