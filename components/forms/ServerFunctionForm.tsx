@@ -401,7 +401,7 @@ const ServerFunctionForm = ({
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Admin account *</FormLabel>
+                <FormLabel>Admin account</FormLabel>
               </div>
             </FormItem>
           )}

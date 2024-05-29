@@ -22,14 +22,23 @@ import clsx from "clsx";
 import { Button } from "@/ui/Button";
 import ServerFunctionForm from "@/components/forms/ServerFunctionForm";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import RemoveConfirmationModal from "@/components/RemoveConfirmationModal";
+import axios from "@/lib/axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { SectionContext } from "@/components/SectionContext";
 
 interface ColumnActionWrapperProps
   extends CellContext<ServerFunction, unknown> {}
 
 // TODO: create component
 const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+  const [openConfirmationModal, setOpenConfirmationModal] =
+    useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+  const { selectedServer } = useContext(SectionContext);
 
   const serverFunction = row.original;
 
@@ -38,42 +47,67 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
     row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
   );
 
+  const removeServerFunction = async () => {
+    await axios.delete(`/server-funkcije/delete/${serverFunction.id}`);
+    await queryClient.invalidateQueries({
+      queryKey: ["serverClickQuery", selectedServer?.id],
+    });
+    setOpenConfirmationModal(false);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="dropdown" className={buttonClasses}>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-white">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DialogTrigger asChild>
-            <DropdownMenuItem>
-              <Edit className="mr-2 h-4 w-4" />
-              <span>Edit</span>
+    <>
+      <Dialog open={openDropdown} onOpenChange={setOpenDropdown}>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="dropdown" className={buttonClasses}>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-white">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DialogTrigger asChild>
+              <DropdownMenuItem>
+                <Edit className="mr-2 h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+            </DialogTrigger>
+            <DropdownMenuItem onClick={() => setOpenConfirmationModal(true)}>
+              <Trash2 className="mr-2 h-4 w-4" />
+              <span>Remove</span>
             </DropdownMenuItem>
-          </DialogTrigger>
-          <DropdownMenuItem>
-            <Trash2 className="mr-2 h-4 w-4" />
-            <span>Remove</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
-        <DialogHeader className="mb-6">
-          <DialogTitle className="text-center text-2xl">
-            Update existing{" "}
-            <span className="text-primary">Server function</span>
-          </DialogTitle>
-          <DialogDescription className="text-center">
-            Fill out the required fields for the Server function here. Click
-            save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <ServerFunctionForm serverFunction={serverFunction} setOpen={setOpen} />
-      </DialogContent>
-    </Dialog>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
+          <DialogHeader className="mb-6">
+            <DialogTitle className="text-center text-2xl">
+              Update existing{" "}
+              <span className="text-primary">Server function</span>
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              Fill out the required fields for the Server function here. Click
+              save when you&apos;re done.
+            </DialogDescription>
+          </DialogHeader>
+          <ServerFunctionForm
+            serverFunction={serverFunction}
+            setOpen={setOpenDropdown}
+          />
+        </DialogContent>
+      </Dialog>
+      <RemoveConfirmationModal
+        open={openConfirmationModal}
+        setOpen={setOpenConfirmationModal}
+        removeAction={removeServerFunction}
+      >
+        You are about to remove{" "}
+        <span className="font-bold">server function </span>with ID of{" "}
+        <span className="text-primary">{serverFunction.id}</span> from server{" "}
+        <span className="text-primary">
+          {selectedServer?.hostname || selectedServer?.ipAddress}
+        </span>
+      </RemoveConfirmationModal>
+    </>
   );
 };
 
