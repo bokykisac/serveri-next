@@ -25,6 +25,7 @@ import { toast } from "@/ui/Toast";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { SectionContext } from "@/components/SectionContext";
 import { format } from "date-fns";
+import { Checkbox } from "@/ui/Checkbox";
 
 interface ServerFormProps {
   server?: Server;
@@ -46,6 +47,7 @@ const formSchema = z.object({
   ram: z.string(),
   hddDescription: z.string(),
   comment: z.string(),
+  active: z.boolean(),
 });
 
 export type ServerForm = z.infer<typeof formSchema>;
@@ -126,11 +128,10 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
       return axios.put("/server/update", {
         ...values,
         id: server.id,
-        active: true,
       });
     }
 
-    return axios.post("/server/save", values);
+    return axios.post("/server/save", { ...values, active: true });
   };
 
   const serverMutation = useMutation({
@@ -178,6 +179,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
         ram: server.ram ? server.ram.toString() : "",
         hddDescription: server.hddDescription,
         comment: server.comment,
+        active: server.active,
       }
     : {
         partner: selectedPartner ? (selectedPartner.id as string) : undefined,
@@ -194,6 +196,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
         ram: "",
         hddDescription: "",
         comment: "",
+        active: false,
       };
 
   const form = useForm<ServerForm>({
@@ -202,6 +205,7 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
     serverMutation.mutate(values);
   };
 
@@ -473,6 +477,26 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
             )}
           />
         </div>
+
+        {isUpdating && (
+          <FormField
+            control={form.control}
+            name="active"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Is active</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormDescription>Fields marked with * are required.</FormDescription>
 
