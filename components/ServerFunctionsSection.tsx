@@ -71,6 +71,11 @@ const ServerFunctionsSection = ({
         canHideColumns
         sortable
         isLoading={isLoading}
+        defaultHiddenColumns={{
+          version: false,
+          custom2: false,
+          custom3: false,
+        }}
       />
     </div>
   );
