@@ -29,7 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/Table";
-import { ChevronsUpDown, Filter } from "lucide-react";
+import { ChevronsUpDown, Filter, TelescopeIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type TDataKeys<T, U extends keyof T> = {
@@ -250,7 +250,10 @@ export function DataTable<TData, TValue>({
                 colSpan={columns.length}
                 className="h-24 border-0 text-center"
               >
-                No results.
+                <div className="mt-4 flex flex-col justify-center text-center text-zinc-500">
+                  <TelescopeIcon className="m-auto h-12 w-12" />
+                  <span className="text-base">No results.</span>
+                </div>
               </TableCell>
             </TableRow>
           )}

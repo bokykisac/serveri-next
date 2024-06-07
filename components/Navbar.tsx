@@ -19,10 +19,10 @@ const Navbar = () => {
             <div className="flex flex-shrink-0 items-center ">
               <Image
                 priority
-                src="/MIS_logo.png"
+                src="/MIS_logo_old.png"
                 alt="M&I Logo"
-                width={85}
-                height={85}
+                width={100}
+                height={100}
               />
             </div>
 
