@@ -102,8 +102,9 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
       >
         You are about to remove{" "}
         <span className="font-bold">server function </span>with ID of{" "}
-        <span className="text-primary">{serverFunction.id}</span> from server{" "}
-        <span className="text-primary">
+        <span className="font-semibold text-primary">{serverFunction.id}</span>{" "}
+        from server{" "}
+        <span className="font-semibold text-primary">
           {selectedServer?.hostname || selectedServer?.ipAddress}
         </span>
       </RemoveConfirmationModal>

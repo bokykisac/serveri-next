@@ -21,14 +21,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import VPNConnectionForm from "@/components/forms/VPNConnectionForm";
-
+import RemoveConfirmationModal from "@/components/RemoveConfirmationModal";
+import axios from "@/lib/axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { SectionContext } from "@/components/SectionContext";
 interface ColumnActionWrapperProps
   extends CellContext<VPNConnection, unknown> {}
 
 const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [openConfirmationModal, setOpenConfirmationModal] =
+    useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+  const { selectedPartner } = useContext(SectionContext);
 
   const vpnConnection = row.original;
 
@@ -37,41 +45,65 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
     row.getIsSelected() && "hover:bg-red-300 hover:text-slate-900",
   );
 
+  const removeVPNConnection = async () => {
+    await axios.delete(`/vpn/delete/${vpnConnection.id}`);
+    await queryClient.invalidateQueries({
+      queryKey: ["partnerClickQuery", selectedPartner?.id],
+    });
+    setOpenConfirmationModal(false);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="dropdown" className={buttonClasses}>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-white">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DialogTrigger asChild>
-            <DropdownMenuItem>
-              <Edit className="mr-2 h-4 w-4" />
-              <span>Edit</span>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="dropdown" className={buttonClasses}>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-white">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DialogTrigger asChild>
+              <DropdownMenuItem>
+                <Edit className="mr-2 h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+            </DialogTrigger>
+            <DropdownMenuItem onClick={() => setOpenConfirmationModal(true)}>
+              <Trash2 className="mr-2 h-4 w-4" />
+              <span>Remove</span>
             </DropdownMenuItem>
-          </DialogTrigger>
-          <DropdownMenuItem>
-            <Trash2 className="mr-2 h-4 w-4" />
-            <span>Remove</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
-        <DialogHeader className="mb-6">
-          <DialogTitle className="text-center text-2xl">
-            Update existing <span className="text-primary">VPN connection</span>
-          </DialogTitle>
-          <DialogDescription className="text-center">
-            Fill out the required fields for the VPN connection here. Click save
-            when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <VPNConnectionForm VPNConnection={vpnConnection} setOpen={setOpen} />
-      </DialogContent>
-    </Dialog>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DialogContent className="max-h-full max-w-3xl overflow-y-scroll">
+          <DialogHeader className="mb-6">
+            <DialogTitle className="text-center text-2xl">
+              Update existing{" "}
+              <span className="text-primary">VPN connection</span>
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              Fill out the required fields for the VPN connection here. Click
+              save when you&apos;re done.
+            </DialogDescription>
+          </DialogHeader>
+          <VPNConnectionForm VPNConnection={vpnConnection} setOpen={setOpen} />
+        </DialogContent>
+      </Dialog>
+      <RemoveConfirmationModal
+        open={openConfirmationModal}
+        setOpen={setOpenConfirmationModal}
+        removeAction={removeVPNConnection}
+      >
+        You are about to remove{" "}
+        <span className="font-bold">VPN Connection </span>with ID of{" "}
+        <span className="font-semibold text-primary">{vpnConnection.id}</span>{" "}
+        from partner{" "}
+        <span className="font-semibold text-primary">
+          {selectedPartner?.name}
+        </span>
+      </RemoveConfirmationModal>
+    </>
   );
 };
 

@@ -55,10 +55,6 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
               <span>Edit</span>
             </DropdownMenuItem>
           </DialogTrigger>
-          <DropdownMenuItem>
-            <Trash2 className="mr-2 h-4 w-4" />
-            <span>Remove</span>
-          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
