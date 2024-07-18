@@ -6,10 +6,10 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import NavLink from "@/components/NavLink";
 import BackupinfoLink from "@/components/BackupinfoLink";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const Navbar = () => {
-  //TODO: extract email from token
-  const { data } = useSession();
+  const { user } = useCurrentUser();
 
   return (
     <nav className="bg-zinc-900">
@@ -31,6 +31,7 @@ const Navbar = () => {
                 <NavLink href="/">Dashboard</NavLink>
                 <BackupinfoLink isNav />
                 <NavLink href="/colleagues">Colleagues</NavLink>
+                <NavLink href="/users">Users</NavLink>
                 <NavLink href="/about">About</NavLink>
               </div>
             </div>
@@ -39,7 +40,7 @@ const Navbar = () => {
           <div className="absolute inset-auto inset-y-0 right-0 ml-6 flex items-center gap-5 pr-2">
             <div className="flex items-center gap-2">
               <User2 className="text-slate-300" />
-              <p className="text-sm text-slate-200">ADMIN</p>
+              <p className="text-sm text-slate-200">{user?.username}</p>
             </div>
             <Button type="button" size="xs" onClick={() => signOut()}>
               Logout

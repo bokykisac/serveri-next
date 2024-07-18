@@ -5,6 +5,7 @@ import { SectionContext } from "@/components/SectionContext";
 import ServerFunctionsSection from "@/components/ServerFunctionsSection";
 import ServersSection from "@/components/ServersSection";
 import VpnSection from "@/components/VpnSection";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import axios from "@/lib/axios";
 import {
   SelectOption,
@@ -14,7 +15,6 @@ import {
   VPNConnection,
 } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { useContext } from "react";
 
 type PartnerDetailsResponse = {
@@ -42,7 +42,8 @@ interface DashboardContainerProps {
 }
 
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
-  const { data } = useSession();
+  const { user } = useCurrentUser();
+
   const {
     selectedPartner,
     selectedServer,
@@ -56,7 +57,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
     isFetching: partnerDetailsFetching,
   } = useQuery({
     queryKey: ["partnerClickQuery", selectedPartner?.id],
-    queryFn: () => fetchPartnerDetails((selectedPartner?.id as string)),
+    queryFn: () => fetchPartnerDetails(selectedPartner?.id as string),
     enabled: !!selectedPartner,
   });
 
@@ -75,8 +76,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const serverFunctionsQueryLoading =
     serverFunctionsLoading && serverFunctionsFetching;
 
-  //TODO: check from session
-  const isAdmin = true;
+  const isAdmin = user?.role === "ADMIN";
 
   const servers = !isAdmin
     ? partnerDetailsData?.servers

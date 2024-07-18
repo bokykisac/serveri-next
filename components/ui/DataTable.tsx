@@ -251,8 +251,8 @@ export function DataTable<TData, TValue>({
                 className="h-24 border-0 text-center"
               >
                 <div className="mt-4 flex flex-col justify-center text-center text-zinc-500">
-                  <TelescopeIcon className="m-auto h-12 w-12" />
-                  <span className="text-base">No results.</span>
+                  <TelescopeIcon className="m-auto h-10 w-10" />
+                  <span className="text-base">No results found.</span>
                 </div>
               </TableCell>
             </TableRow>

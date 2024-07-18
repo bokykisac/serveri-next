@@ -1,24 +1,7 @@
 /* eslint-disable no-unused-vars */
-import type { Session, User } from "next-auth";
+import type { Session } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-
-type UserDetails = {
-  remoteAddress: string;
-  sessionId?: string;
-};
-
-type UserPrincipal = {
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  authorities: string[];
-  credentialsNonExpired: boolean;
-  dn: string;
-  enabled: boolean;
-  graceLoginsRemaining: number;
-  password?: string;
-  timeBeforeExpiration: number;
-  username: string;
-};
+import { User } from "./api";
 
 interface Token {
   errorMessage: string;
@@ -26,10 +9,8 @@ interface Token {
   iat: number;
   jti: string;
   token: string;
+  user: User;
 }
-
-type UserId = string;
-
 declare module "next-auth/jwt" {
   interface JWT extends Token {
     name: string | null | undefined;

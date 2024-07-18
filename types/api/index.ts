@@ -90,3 +90,13 @@ export type Backupinfo = {
   actionOk: boolean;
   version: number;
 };
+
+export type User = {
+  id: number;
+  username: string;
+  comment?: string;
+  dateCreated: string;
+  role: "ADMIN" | "USER";
+  misid: number;
+  active: boolean;
+};
