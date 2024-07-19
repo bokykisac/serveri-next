@@ -2,6 +2,7 @@
 
 import BackupinfoLink from "@/components/BackupinfoLink";
 import CopyButton from "@/components/CopyButton";
+import ServerForm from "@/components/forms/ServerForm";
 import {
   Dialog,
   DialogContent,
@@ -22,9 +23,8 @@ import { Button } from "@/ui/Button";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import clsx from "clsx";
 import { format, parseISO } from "date-fns";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
-import ServerForm from "@/components/forms/ServerForm";
 
 interface ColumnActionWrapperProps extends CellContext<Server, unknown> {}
 

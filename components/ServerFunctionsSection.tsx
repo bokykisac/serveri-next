@@ -1,7 +1,6 @@
-import { ServerFunction } from "@/types/api";
-import SectionHeader from "@/components/SectionHeader";
-import { DataTable } from "@/ui/DataTable";
+import ServerFunctionForm from "@/components/forms/ServerFunctionForm";
 import { columns } from "@/components/table/table-columns/server-function-columns";
+import { Button } from "@/components/ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -10,10 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { Button } from "@/components/ui/Button";
+import { ServerFunction } from "@/types/api";
+import { DataTable } from "@/ui/DataTable";
 import { Plus } from "lucide-react";
 import { useContext, useState } from "react";
-import ServerFunctionForm from "@/components/forms/ServerFunctionForm";
 import { SectionContext } from "./SectionContext";
 interface ServerFunctionsSectionProps {
   serverFunctions: ServerFunction[];
