@@ -12,7 +12,7 @@ export const columns: ColumnDef<Backupinfo>[] = [
     ),
     accessorKey: "time",
     cell: (info) =>
-      format(new Date(info.getValue() as string), "dd-MM-yyyy, hh:mm:ss"),
+      format(new Date(info.getValue() as string), "dd-MM-yyyy, HH:mm:ss"),
   },
   {
     header: ({ column }) => (
