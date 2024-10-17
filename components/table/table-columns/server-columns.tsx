@@ -18,6 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { Server } from "@/types/api";
 import { Button } from "@/ui/Button";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
@@ -31,6 +32,7 @@ interface ColumnActionWrapperProps extends CellContext<Server, unknown> {}
 // TODO: create component
 const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { isAdmin } = useCurrentUser();
 
   const server = row.original;
 
@@ -50,7 +52,7 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
         <DropdownMenuContent align="end" className="bg-white">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DialogTrigger asChild>
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled={!isAdmin}>
               <Edit className="mr-2 h-4 w-4" />
               <span>Edit</span>
             </DropdownMenuItem>

@@ -42,7 +42,7 @@ interface DashboardContainerProps {
 }
 
 const DashboardContainer = ({ partners }: DashboardContainerProps) => {
-  const { user } = useCurrentUser();
+  const { isAdmin } = useCurrentUser();
 
   const {
     selectedPartner,
@@ -76,11 +76,13 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   const serverFunctionsQueryLoading =
     serverFunctionsLoading && serverFunctionsFetching;
 
-  const isAdmin = user?.role === "ADMIN";
-
-  const servers = !isAdmin
+  const servers = isAdmin
     ? partnerDetailsData?.servers
     : partnerDetailsData?.servers?.filter((server) => server.active);
+
+  const functions = isAdmin
+    ? serverFunctionsData
+    : serverFunctionsData?.filter((f) => !f.adminAccount);
 
   const onSetSelectedPartner = (selectedPartner: SelectOption | null) => {
     setSelectedPartner(selectedPartner);
@@ -90,7 +92,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
   return (
     <div className="grid h-screen-nav grid-rows-3 gap-1">
       <div className="grid h-screen-nav grid-rows-3 gap-1 p-1">
-        <div className="flex gap-1">
+        <div className="flex gap-1 overflow-x-auto">
           <PartnersSection
             partners={partners}
             setSelectedPartner={onSetSelectedPartner}
@@ -109,7 +111,7 @@ const DashboardContainer = ({ partners }: DashboardContainerProps) => {
           selectedServer={selectedServer}
         />
         <ServerFunctionsSection
-          serverFunctions={serverFunctionsData || []}
+          serverFunctions={functions || []}
           isLoading={serverFunctionsQueryLoading}
         />
       </div>

@@ -27,6 +27,7 @@ import RemoveConfirmationModal from "@/components/RemoveConfirmationModal";
 import axios from "@/lib/axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { SectionContext } from "@/components/SectionContext";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 interface ColumnActionWrapperProps
   extends CellContext<VPNConnection, unknown> {}
 
@@ -34,9 +35,9 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [openConfirmationModal, setOpenConfirmationModal] =
     useState<boolean>(false);
-
   const queryClient = useQueryClient();
   const { selectedPartner } = useContext(SectionContext);
+  const { isAdmin } = useCurrentUser();
 
   const vpnConnection = row.original;
 
@@ -65,12 +66,15 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
           <DropdownMenuContent align="end" className="bg-white">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DialogTrigger asChild>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled={!isAdmin}>
                 <Edit className="mr-2 h-4 w-4" />
                 <span>Edit</span>
               </DropdownMenuItem>
             </DialogTrigger>
-            <DropdownMenuItem onClick={() => setOpenConfirmationModal(true)}>
+            <DropdownMenuItem
+              disabled={!isAdmin}
+              onClick={() => setOpenConfirmationModal(true)}
+            >
               <Trash2 className="mr-2 h-4 w-4" />
               <span>Remove</span>
             </DropdownMenuItem>
@@ -131,6 +135,27 @@ export const columns: ColumnDef<VPNConnection>[] = [
     header: "Password",
     cell: ({ row }) => {
       return <CopyButton>{row.getValue("password")}</CopyButton>;
+    },
+  },
+  {
+    accessorKey: "groupUsername",
+    header: "Group username",
+    cell: ({ row }) => {
+      return <CopyButton>{row.getValue("groupUsername")}</CopyButton>;
+    },
+  },
+  {
+    accessorKey: "groupPassword",
+    header: "Group password",
+    cell: ({ row }) => {
+      return <CopyButton>{row.getValue("groupPassword")}</CopyButton>;
+    },
+  },
+  {
+    accessorKey: "presharedKey",
+    header: "Preshared key",
+    cell: ({ row }) => {
+      return <CopyButton>{row.getValue("presharedKey")}</CopyButton>;
     },
   },
   {

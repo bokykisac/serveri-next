@@ -99,7 +99,10 @@ export function DataTable<TData, TValue>({
     setRowSelection({});
   }, [selectedItem]);
 
-  const classes = cn("rounded-md w-full h-full overflow-y-auto", className);
+  const classes = cn(
+    "rounded-md w-full h-full overflow-y-auto overflow-x-auto",
+    className,
+  );
 
   return (
     <div className={classes}>
@@ -226,7 +229,7 @@ export function DataTable<TData, TValue>({
                         selectedItem?.id === row.original.id,
                     },
                     {
-                      "bg-stone-200 text-zinc-500":
+                      "bg-stone-200 text-zinc-400":
                         //@ts-ignore
                         row.original.active === false,
                     },

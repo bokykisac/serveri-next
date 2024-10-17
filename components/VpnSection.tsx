@@ -14,6 +14,7 @@ import { Button } from "@/ui/Button";
 import { Plus } from "lucide-react";
 import VPNConnectionForm from "@/components/forms/VPNConnectionForm";
 import { useState } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface VpnSectionProps {
   vpnConnections: VPNConnection[];
@@ -22,6 +23,7 @@ interface VpnSectionProps {
 
 const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { isAdmin } = useCurrentUser();
 
   return (
     <div className="relative flex h-full flex-grow flex-col rounded-md border  border-slate-300 bg-stone-100 px-2 py-1">
@@ -41,6 +43,7 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
                 variant="ghost"
                 size="xs"
                 className="float-right mr-20 whitespace-nowrap"
+                disabled={!isAdmin}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add New
@@ -66,6 +69,11 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
         data={vpnConnections || []}
         canHideColumns
         isLoading={isLoading}
+        defaultHiddenColumns={{
+          groupUsername: false,
+          groupPassword: false,
+          presharedKey: false,
+        }}
       />
     </div>
   );

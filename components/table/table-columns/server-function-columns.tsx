@@ -27,6 +27,7 @@ import RemoveConfirmationModal from "@/components/RemoveConfirmationModal";
 import axios from "@/lib/axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { SectionContext } from "@/components/SectionContext";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface ColumnActionWrapperProps
   extends CellContext<ServerFunction, unknown> {}
@@ -39,6 +40,7 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
 
   const queryClient = useQueryClient();
   const { selectedServer } = useContext(SectionContext);
+  const { isAdmin } = useCurrentUser();
 
   const serverFunction = row.original;
 
@@ -67,12 +69,15 @@ const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
           <DropdownMenuContent align="end" className="bg-white">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DialogTrigger asChild>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled={!isAdmin}>
                 <Edit className="mr-2 h-4 w-4" />
                 <span>Edit</span>
               </DropdownMenuItem>
             </DialogTrigger>
-            <DropdownMenuItem onClick={() => setOpenConfirmationModal(true)}>
+            <DropdownMenuItem
+              disabled={!isAdmin}
+              onClick={() => setOpenConfirmationModal(true)}
+            >
               <Trash2 className="mr-2 h-4 w-4" />
               <span>Remove</span>
             </DropdownMenuItem>

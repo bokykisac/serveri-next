@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Plus } from "lucide-react";
 import ServerForm from "@/components/forms/ServerForm";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 interface ServersSectionProps {
   servers: Server[];
   setSelectedServer: Dispatch<SetStateAction<Server | null>>;
@@ -27,6 +28,7 @@ const ServersSection = ({
   selectedServer,
 }: ServersSectionProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { isAdmin } = useCurrentUser();
 
   return (
     <div className="relative flex h-full flex-grow flex-col overflow-x-auto rounded-md border  border-slate-300 bg-stone-100 p-3 px-2 py-1">
@@ -43,6 +45,7 @@ const ServersSection = ({
                 size="xs"
                 className="float-right mr-20 whitespace-nowrap"
                 onClick={() => setOpen(true)}
+                disabled={!isAdmin}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add New

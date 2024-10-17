@@ -14,6 +14,7 @@ import { DataTable } from "@/ui/DataTable";
 import { Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import { SectionContext } from "./SectionContext";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 interface ServerFunctionsSectionProps {
   serverFunctions: ServerFunction[];
   isLoading: boolean;
@@ -26,6 +27,7 @@ const ServerFunctionsSection = ({
   const [open, setOpen] = useState<boolean>(false);
 
   const { selectedServer } = useContext(SectionContext);
+  const { isAdmin } = useCurrentUser();
 
   return (
     <div className="relative flex h-full flex-grow flex-col rounded-md border  border-slate-300 bg-stone-100 p-3 px-2 py-1 shadow-lg">
@@ -42,7 +44,7 @@ const ServerFunctionsSection = ({
                 size="xs"
                 className="float-right mr-20 whitespace-nowrap"
                 onClick={() => setOpen(true)}
-                disabled={!selectedServer}
+                disabled={!selectedServer || !isAdmin}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Add New

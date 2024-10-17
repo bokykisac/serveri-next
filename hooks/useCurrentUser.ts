@@ -9,8 +9,11 @@ export function useCurrentUser() {
   const { expires, user } = data;
   const { errorMessage, exp, iat, jti, token } = user;
 
+  const isAdmin = user.user.role === "ADMIN";
+
   return {
     token: { expires, errorMessage, exp, iat, jti, token },
     user: user.user,
+    isAdmin,
   };
 }
