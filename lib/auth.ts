@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        axios.defaults.baseURL = process.env.JAVA_API_URL;
+        axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
         let ipAddress = "Unknown";
         let userAgent = "";
