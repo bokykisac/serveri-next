@@ -1,7 +1,7 @@
 import primaryAxios from "axios";
 import { getSession } from "next-auth/react";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL,
+const baseURL = process.env.JAVA_API_URL,
   isServer = typeof window === "undefined";
 
 const axios = primaryAxios.create({

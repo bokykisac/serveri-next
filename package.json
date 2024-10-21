@@ -50,10 +50,12 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.1.6",
+    "ua-parser-js": "^1.0.39",
     "yup": "^1.2.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/ua-parser-js": "^0.7.39",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6"
   }
