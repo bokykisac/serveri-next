@@ -72,7 +72,6 @@ const VpnSection = ({ vpnConnections, isLoading }: VpnSectionProps) => {
         defaultHiddenColumns={{
           groupUsername: false,
           groupPassword: false,
-          presharedKey: false,
         }}
       />
     </div>
