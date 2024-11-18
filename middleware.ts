@@ -7,15 +7,29 @@ export default withAuth(
     const pathname = req.nextUrl.pathname;
 
     const token = await getToken({ req });
-    const isAuth = !!token;
+    const hasToken = !!token?.token;
+
+    let isTokenValid = false;
+
+    if (hasToken) {
+      const payload = token?.token.split(".")[1];
+      const decodedPayload = atob(payload);
+      const decodedToken = JSON.parse(decodedPayload);
+
+      isTokenValid = decodedToken.exp
+        ? decodedToken.exp * 1000 > Date.now()
+        : false;
+    }
 
     const requestHeaders = new Headers(req.headers);
     requestHeaders.set("authorization", `${token?.token}`);
 
+    // Define routes that are accessible without authentication or authorization
     const isAuthPage =
       pathname.startsWith("/login") || pathname.startsWith("/unauthorized");
 
-    if (!isAuth) {
+    if (!hasToken || !isTokenValid) {
+      // If token is missing or expired, redirect to /unauthorized or allow access to auth pages
       if (isAuthPage) {
         return NextResponse.next({
           request: {
@@ -23,9 +37,12 @@ export default withAuth(
           },
         });
       }
-      return NextResponse.redirect(new URL("/login", req.url));
+
+      // Redirect to /unauthorized if token is invalid/expired
+      return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
 
+    // If the user has a valid token, proceed with the request
     return NextResponse.next({
       request: {
         headers: requestHeaders,
