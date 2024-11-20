@@ -1,6 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { isTokenValid as isTokenValidHelper } from "./lib/utils";
 
 export default withAuth(
   async function middleware(req) {
@@ -12,13 +13,7 @@ export default withAuth(
     let isTokenValid = false;
 
     if (hasToken) {
-      const payload = token?.token.split(".")[1];
-      const decodedPayload = atob(payload);
-      const decodedToken = JSON.parse(decodedPayload);
-
-      isTokenValid = decodedToken.exp
-        ? decodedToken.exp * 1000 > Date.now()
-        : false;
+      isTokenValid = isTokenValidHelper(token.token);
     }
 
     const requestHeaders = new Headers(req.headers);

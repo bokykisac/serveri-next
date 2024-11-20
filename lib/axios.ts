@@ -1,5 +1,6 @@
 import primaryAxios from "axios";
 import { getSession } from "next-auth/react";
+import { isTokenValid } from "./utils";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL,
   isServer = typeof window === "undefined";
@@ -25,27 +26,28 @@ axios.interceptors.request.use(async (config) => {
 
     if (session && session.user && session.user.token) {
       const token = session.user.token;
-      config.headers["Authorization"] = `Bearer ${token}`;
+
+      if (isTokenValid(token)) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      } else {
+        window.location.href = "/unauthorized";
+        throw new Error("Token expired. Redirecting to /unauthorized.");
+      }
     }
   }
 
   return config;
 });
 
-// TODO: find how to intercept axios client side 401 errors
-// axios.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     if (isServer) {
-//       const { redirect } = await import("next/navigation");
-//       if (error.response.status === 401) {
-//         redirect("/unauthorized");
-//       }
-//       return error;
-//     }
-//   },
-// );
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401 && !isServer) {
+      window.location.href = "/unauthorized";
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export default axios;
