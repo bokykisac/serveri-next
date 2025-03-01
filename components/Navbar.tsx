@@ -1,15 +1,16 @@
 "use client";
 
-import { Button } from "@/ui/Button";
-import { User2 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import NavLink from "@/components/NavLink";
 import BackupinfoLink from "@/components/BackupinfoLink";
+import NavLink from "@/components/NavLink";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { Button } from "@/ui/Button";
+import { User2, UserCog } from "lucide-react";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
+import styles from "@/components/Navbar.module.css";
 
 const Navbar = () => {
-  const { user } = useCurrentUser();
+  const { user, isAdmin } = useCurrentUser();
 
   return (
     <nav className="bg-zinc-900">
@@ -39,7 +40,11 @@ const Navbar = () => {
 
           <div className="absolute inset-auto inset-y-0 right-0 ml-6 flex items-center gap-5 pr-2">
             <div className="flex items-center gap-2">
-              <User2 className="text-slate-300" />
+              {isAdmin ? (
+                <span className={styles.gradientIcon} />
+              ) : (
+                <User2 className="text-slate-300" />
+              )}
               <p className="text-sm text-slate-200">{user?.username}</p>
             </div>
             <Button type="button" size="xs" onClick={() => signOut()}>

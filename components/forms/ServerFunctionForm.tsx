@@ -37,12 +37,12 @@ const formSchema = z.object({
   proccessInstanceUrl: z.string(),
   port: z.string(),
   version: z.string(),
-  location: z.string(),
+  location: z.preprocess((val) => (val === null ? "" : val), z.string()),
   adminAccount: z.boolean(),
-  custom1: z.string(),
-  custom2: z.string(),
-  custom3: z.string(),
-  description: z.string(),
+  custom1: z.preprocess((val) => (val === null ? "" : val), z.string()),
+  custom2: z.preprocess((val) => (val === null ? "" : val), z.string()),
+  custom3: z.preprocess((val) => (val === null ? "" : val), z.string()),
+  description: z.preprocess((val) => (val === null ? "" : val), z.string()),
 });
 
 export type ServerFunctionForm = z.infer<typeof formSchema>;
@@ -91,7 +91,9 @@ const ServerFunctionForm = ({
         .then(() => {
           toast({
             title: "Success",
-            message: "Server function successfully created.",
+            message: `Server function successfully ${
+              isUpdating ? "updated" : "created"
+            }.`,
             type: "success",
           });
         })

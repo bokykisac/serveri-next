@@ -1,0 +1,32 @@
+.gradientIcon {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVzZXItY29nIj48Y2lyY2xlIGN4PSIxOCIgY3k9IjE1IiByPSIzIi8+PGNpcmNsZSBjeD0iOSIgY3k9IjciIHI9IjQiLz48cGF0aCBkPSJNMTAgMTVINmE0IDQgMCAwIDAtNCA0djIiLz48cGF0aCBkPSJtMjEuNyAxNi40LS45LS4zIi8+PHBhdGggZD0ibTE1LjIgMTMuOS0uOS0uMyIvPjxwYXRoIGQ9Im0xNi42IDE4LjcuMy0uOSIvPjxwYXRoIGQ9Im0xOS4xIDEyLjIuMy0uOSIvPjxwYXRoIGQ9Im0xOS42IDE4LjctLjQtMSIvPjxwYXRoIGQ9Im0xNi44IDEyLjMtLjQtMSIvPjxwYXRoIGQ9Im0xNC4zIDE2LjYgMS0uNCIvPjxwYXRoIGQ9Im0yMC43IDEzLjggMS0uNCIvPjwvc3ZnPg==")
+    no-repeat center / contain;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVzZXItY29nIj48Y2lyY2xlIGN4PSIxOCIgY3k9IjE1IiByPSIzIi8+PGNpcmNsZSBjeD0iOSIgY3k9IjciIHI9IjQiLz48cGF0aCBkPSJNMTAgMTVINmE0IDQgMCAwIDAtNCA0djIiLz48cGF0aCBkPSJtMjEuNyAxNi40LS45LS4zIi8+PHBhdGggZD0ibTE1LjIgMTMuOS0uOS0uMyIvPjxwYXRoIGQ9Im0xNi42IDE4LjcuMy0uOSIvPjxwYXRoIGQ9Im0xOS4xIDEyLjIuMy0uOSIvPjxwYXRoIGQ9Im0xOS42IDE4LjctLjQtMSIvPjxwYXRoIGQ9Im0xNi44IDEyLjMtLjQtMSIvPjxwYXRoIGQ9Im0xNC4zIDE2LjYgMS0uNCIvPjxwYXRoIGQ9Im0yMC43IDEzLjggMS0uNCIvPjwvc3ZnPg==")
+    no-repeat center / contain;
+  overflow: hidden;
+}
+
+/* Create a child layer with a conic gradient that rotates */
+.gradientIcon::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: conic-gradient(from 0deg, white, hsl(var(--primary)), white);
+  animation: rotateGradient 5s linear infinite;
+}
+
+@keyframes rotateGradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
