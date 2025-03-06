@@ -7,7 +7,7 @@ interface SpinnerProps {
 
 const Spinner = ({ className }: SpinnerProps) => {
   return (
-    <div className={cn(className, style["lds-spinner"])}>
+    <div className={cn(style["lds-spinner"], className)}>
       <div></div>
       <div></div>
       <div></div>

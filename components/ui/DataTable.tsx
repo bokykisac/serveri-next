@@ -211,6 +211,9 @@ export function DataTable<TData, TValue>({
                 highlightServerFunction = true;
               }
 
+              //@ts-ignore
+              let inactiveRow = row.original.active && row.original.misId;
+
               return (
                 <TableRow
                   key={row.id}
@@ -229,9 +232,7 @@ export function DataTable<TData, TValue>({
                         selectedItem?.id === row.original.id,
                     },
                     {
-                      "bg-stone-200 text-zinc-400":
-                        //@ts-ignore
-                        row.original.active === false,
+                      "bg-stone-200 text-zinc-400": inactiveRow,
                     },
                     { "bg-yellow-100": highlightServerFunction },
                   )}

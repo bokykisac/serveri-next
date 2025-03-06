@@ -128,8 +128,9 @@ export const authOptions: NextAuthOptions = {
         } catch (err) {
           //TODO: refactor those errors
           if (err instanceof AxiosError) {
+            const message = err?.response?.data;
             if (err?.response?.status !== 401) {
-              throw new Error("Internal Server Error.");
+              throw new Error(message || "Internal Server Error.");
             }
 
             throw new Error("Invalid credentials.");

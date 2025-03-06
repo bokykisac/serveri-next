@@ -205,7 +205,6 @@ const ServerForm = ({ server, setOpen }: ServerFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     serverMutation.mutate(values);
   };
 

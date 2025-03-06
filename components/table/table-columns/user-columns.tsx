@@ -8,16 +8,80 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { toast } from "@/components/ui/Toast";
+import axios from "@/lib/axios";
 import { User } from "@/types/api";
-import { ColumnDef } from "@tanstack/react-table";
+import { useMutation } from "@tanstack/react-query";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
+import { AxiosError } from "axios";
 import { format, parseISO } from "date-fns";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, UserRoundCheck, UserRoundX } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 enum Status {
   ACTIVE = "ACTIVE",
   PENDING = "PENDING",
   INACTIVE = "INACTIVE",
 }
+
+interface ColumnActionWrapperProps extends CellContext<User, unknown> {}
+
+const ActionWrapper = ({ row }: ColumnActionWrapperProps) => {
+  const router = useRouter();
+
+  const user = row.original;
+
+  const { misid, active } = user;
+
+  const updateUserStatus = useMutation({
+    mutationFn: () =>
+      axios.put("/auth/status", { colleague: misid, active: !active }),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        message: `User successfully created.`,
+        type: "success",
+      });
+      router.refresh();
+    },
+    onError: (e: AxiosError) => {
+      const message = e?.response?.data as string;
+
+      toast({
+        title: "Error",
+        message: message || "Failed to update user status, try again.",
+        type: "error",
+      });
+    },
+  });
+
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => {
+              updateUserStatus.mutate();
+            }}
+          >
+            {active ? (
+              <UserRoundX className="mr-2 h-4 w-4 text-primary" />
+            ) : (
+              <UserRoundCheck className="mr-2 h-4 w-4 text-green-700" />
+            )}
+            <span>{active ? "Disable" : "Enable"}</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -63,39 +127,6 @@ export const columns: ColumnDef<User>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original;
-
-      return (
-        <div className="flex h-full w-full items-center justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => {
-                  // Handle remove action
-                  console.log("Remove user:", user.username);
-                }}
-              >
-                Remove
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  // Handle disable action
-                  console.log("Disable user:", user.username);
-                }}
-              >
-                Disable
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
+    cell: ActionWrapper,
   },
 ];
