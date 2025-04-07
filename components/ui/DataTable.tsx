@@ -212,7 +212,7 @@ export function DataTable<TData, TValue>({
               }
 
               //@ts-ignore
-              let inactiveRow = row.original.active && row.original.misId;
+              let inactiveRow = row.original.active === false;
 
               return (
                 <TableRow
